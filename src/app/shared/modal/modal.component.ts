@@ -1,35 +1,22 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgClass, NgIf} from "@angular/common";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [
-    NgClass,
-    NgIf
-  ],
+  imports: [ CommonModule ],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
   @Input() showModal: boolean = false;
-  @Input() message: string = 'An error occurred'; // Default message
-  @Input() isError: boolean = true;  // Flag to determine error or success
-  @Input() isSuccess: boolean = false;  // Success flag for success message
-  @Output() confirmAction = new EventEmitter<void>();
-  @Output() close = new EventEmitter<void>();
+  @Input() message: string = 'An error occurred'; 
+  @Input() isError: boolean = true;  
+  @Input() isSuccess: boolean = false;  
   @Input() showButtons: boolean = false;
   @Input() isInfo: boolean = false;  
-  shake: boolean = false;
-
-  ngOnChanges() {
-    if (this.isError && this.showModal) {
-      this.shake = true;
-      setTimeout(() => {
-        this.shake = false;
-      }, 500); 
-    }
-  }
+  @Output() close = new EventEmitter<void>();
+  @Output() confirmAction = new EventEmitter<void>();
 
   confirm() {
     this.confirmAction.emit(); 
@@ -37,6 +24,6 @@ export class ModalComponent {
   
   closeModal() {
     this.showModal = false;
-    this.close.emit();  // Notify parent component to close the modal
+    this.close.emit();  
   }
 }

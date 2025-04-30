@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {SpinnerService} from "../../services/spinner.service";
-import {NgIf} from "@angular/common";
+import {CommonModule} from "@angular/common";
+import { SpinnerService } from '../../core/services/spinner.service';
 
 @Component({
   selector: 'app-spinner',
   standalone: true,
-  imports: [
-    NgIf
-  ],
+  imports: [ CommonModule ],
   templateUrl: './spinner.component.html',
   styleUrl: './spinner.component.scss'
 })

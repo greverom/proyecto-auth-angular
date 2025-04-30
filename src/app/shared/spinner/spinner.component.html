@@ -1,3 +1,4 @@
-<div *ngIf="isLoading" class="spinner-overlay">
-  <div class="spinner"></div>
+<div *ngIf="isLoading" class="fixed inset-0 bg-gray-200 bg-opacity-50 flex flex-col items-center justify-center z-[1000]">
+  <div class="w-12 h-12 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+  <p class="mt-4 text-gray-600 text-sm font-medium">Cargando...</p>
 </div>

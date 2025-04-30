@@ -5,11 +5,13 @@ import { selectIsLoggedIn, selectUserData, selectIsAdmin } from './core/store/us
 import { User } from './shared/models/user.model';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -32,8 +34,8 @@ export class AppComponent implements OnInit {
     this.isAdmin$ = this.store.select(selectIsAdmin);
     this.userData$ = this.store.select(selectUserData);
 
-    this.isLoggedIn$.subscribe(value => console.log('🔒 ¿Está logueado?', value));
-    this.isAdmin$.subscribe(value => console.log('👑 ¿Es admin?', value));
-    this.userData$.subscribe(user => console.log('🙋‍♂️ Usuario:', user));
+    this.isLoggedIn$.subscribe(value => console.log('¿Está logueado?', value));
+    this.isAdmin$.subscribe(value => console.log('¿Es admin?', value));
+    this.userData$.subscribe(user => console.log('Usuario:', user));
   }
 }
