@@ -37,4 +37,25 @@ export class AuthService {
     this.store.dispatch(setLoggedInStatus({ isLoggedIn: false }));
     this.store.dispatch(setAdminStatus({ isAdmin: false }));
   }
+
+  async restoreSession(): Promise<void> {
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data.user) return;
+
+  const user = data.user;
+
+  const userData: User = {
+    id: user.id,
+    email: user.email ?? '',
+    name: user.user_metadata?.['name'] ?? '',
+    role: user.user_metadata?.['role'] ?? 'user',
+  };
+
+  const isAdmin = userData.role.toLowerCase() === 'administrador';
+
+  this.store.dispatch(setUserData({ data: userData }));
+  this.store.dispatch(setLoggedInStatus({ isLoggedIn: true }));
+  this.store.dispatch(setAdminStatus({ isAdmin }));
+}
 }
