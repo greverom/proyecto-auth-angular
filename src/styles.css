@@ -4,7 +4,7 @@
 .main-content {
     padding-left: 80px; 
     min-height: 100vh;
-    transition: padding-left 0.3s ease;
+    transition: padding-left 0.7s ease;
   }
 
   @media (max-width: 768px) {
