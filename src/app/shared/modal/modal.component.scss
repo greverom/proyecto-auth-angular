@@ -1,0 +1,150 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(96, 96, 96, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1010;
+}
+
+.modal-content {
+  background-color: rgb(255, 255, 255);
+  padding: 1.7rem;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  max-width: 90%;
+  position: relative;
+  /* Solo agregar la animación si es un error */
+}
+
+@keyframes pop-up {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop-up-animation {
+  animation: pop-up 0.3s ease-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-animation {
+  animation: shake 0.5s ease-in-out;
+}
+
+.modal-content p{
+  font-size: 1rem;
+  color: black;
+}
+
+.error-modal {
+  background-color: rgb(255, 255, 255);
+}
+
+.error-modal p {
+  color: rgb(208, 58, 58);
+}
+
+.success-modal {
+  background-color: rgb(255, 255, 255);
+  color: #28a745;
+}
+
+.success-modal p {
+  color: #28a745;
+}
+
+.success-icon {
+  font-size: 1.4rem;
+  color: #28a745;
+  margin-bottom: 1rem;
+}
+
+.info-modal {
+  background-color: rgb(255, 255, 255);
+  color: #17a2b8; 
+}
+
+.question-icon {
+  font-size: 1.4rem;
+  color: #17a2b8;
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  font-size: 1.4rem;
+  color: #dc3545;
+  margin-bottom: .7rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;  
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600; 
+  border-radius: 6px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out; 
+}
+
+.cancel-button {
+  background-color: #6f42c1;
+  color: white; 
+
+  &:hover {
+    background-color: #6c35d2;
+  }
+}
+
+.confirm-button {
+  background-color: #007bff; 
+  color: white;
+  border-color: #007bff;
+
+  &:hover {
+    background-color: #0056b3; 
+  }
+}
+
+@media (max-width: 492px) {
+  .modal-content {
+    padding: 1.5rem;
+    max-width: 85%;
+  }
+
+  .error-icon {
+    font-size: 1.3rem;
+  }
+
+  .button {
+    padding: 0.45rem 1.5rem;
+  }
+
+}

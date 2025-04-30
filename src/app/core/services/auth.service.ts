@@ -1,13 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { supabase } from '../supabase-client';
-import { useAuthStore } from '../store/auth.store';
 import { User } from '../../shared/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly authStore = inject(useAuthStore);
 
-  async login(email: string, password: string): Promise<void> {
+  async login(email: string, password: string): Promise<User> {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) throw error;
@@ -22,21 +20,10 @@ export class AuthService {
       role: user.user_metadata?.['role'] ?? 'user',
     };
 
-    this.authStore.login(userData);
+    return userData; 
   }
 
   async logout(): Promise<void> {
     await supabase.auth.signOut();
-    this.authStore.logout();
-  }
-
-
-  getUser(): User | null {
-    return this.authStore.getUser();
-  }
-
-
-  isLoggedIn(): boolean {
-    return this.authStore.isLoggedIn();
   }
 }
