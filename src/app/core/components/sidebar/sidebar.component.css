@@ -350,14 +350,6 @@
   }
   
     @media (max-width: 768px) {
-    .sidebar {
-        width: 300px; 
-    }
-  
-    .sidebar ul li a:hover::before {
-      width: 301px; 
-      background: rgba(255, 255, 255, 0.1); 
-    }
   
     .sidebar.closed {
       width: 0px; 
@@ -365,8 +357,6 @@
   
     .arrow-icon {
         display: block;
-        padding: 10px 14px ;
-        font-size: 17px;
       }
   
   }
