@@ -16,7 +16,7 @@
   }
   
   .sidebar.closed {
-    width: 65px; 
+    width: 60px; 
   }
   
   .sidebar.closed .nav-section {
@@ -45,7 +45,7 @@
     flex-direction: row; 
     justify-content: flex-start;
     align-items: center;
-    padding: 0 10px 0;
+    padding: 5px 11px ;
     width: 100%; 
     margin-top: 20px;
   }
@@ -57,7 +57,7 @@
   }
 
   img {
-    width: 45px;
+    width: 39px;
     margin: auto;
     height: auto;
     max-width: 100px;
@@ -67,7 +67,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-left: 10px;
+    padding-left: 12px;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
     white-space: nowrap;
@@ -75,14 +75,13 @@
   }
   
     .hello-text {
-      font-size: 1rem;
+      font-size: .85rem;
       color: rgba(255, 255, 255, 0.8);
     }
   
     .user-name {
-      font-size: .9rem;
+      font-size: .85rem;
       color: white;
-      font-weight: bold;
     }
   
     .welcome-message {
@@ -94,7 +93,6 @@
     
     .welcome-message .college-name {
       display: block; 
-      font-weight: bold;
       color: #ffffff; 
     }
   
@@ -109,7 +107,7 @@
   
   .nav-section {
     margin-top: 1.3rem;   
-    padding-top: .5rem;
+    padding-top: 1rem;
     flex-grow: 1;       
     overflow-y: auto;  
     overflow-x: hidden; 
@@ -123,12 +121,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 17px;
+    padding: 12px 15px;
     cursor: pointer;
     user-select: none;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: bold;
+    font-size: .8rem;
+    color: rgb(255, 255, 255);
     white-space: nowrap;      
     overflow: hidden;           
     transition: background-color 0.3s ease;
@@ -180,7 +177,6 @@
     flex: 1;
     text-align: left;
     white-space: nowrap;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
   
   .category-header .chevron-icon {
@@ -199,7 +195,7 @@
   .category-title {
     white-space: nowrap; 
     overflow: hidden; 
-    font-size: 14px;
+    font-size: .85rem;
     color: rgba(255, 255, 255, 0.6);
     padding: 0 0 0 17px;
   }
@@ -224,11 +220,11 @@
   }
   
   .nav-item {
-    padding: 0.8rem 1rem;
+    padding: 12px 14px;
     gap: 0.8rem;
     cursor: pointer;
     color: #e8eaed;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     text-decoration: none;
     transition: background-color 0.3s ease;
     border-radius: 6px;
@@ -251,7 +247,7 @@
     padding: 13px 19px;
     position: relative;
     font-weight: 400;
-    font-size: 13px;
+    font-size: .75rem;
     transition: all 0.5s ease-in-out;
     overflow: visible;
   }
@@ -286,7 +282,7 @@
   }
   
   .logout {
-    padding: 25px 0px;
+    padding: 18px 0px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -297,7 +293,7 @@
   
   .logout a {
     display: flex;
-    font-size: 14px;
+    font-size: 13px;
     align-items: center;
     color: white;
     text-decoration: none;
@@ -337,16 +333,16 @@
   .arrow-icon {
     display: none;
     position: fixed;
-    top: 24px; 
-    left: 85px; 
-    background: #975bcf;
+    top: 20px; 
+    left: 0px; 
+    background: #5b6bcf;
     color: white;
     padding: 7px 14px ;
     cursor: pointer;
     font-size: 15px;
     border-radius: 0px 3px 15px 0px;
     z-index: 1100;
-    transition: left 0.3s ease;
+    transition: left 0.7s ease;
   }
   
   .sidebar.closed + .arrow-icon {
