@@ -20,7 +20,6 @@
   width: 350px;
   max-width: 90%;
   position: relative;
-  /* Solo agregar la animación si es un error */
 }
 
 @keyframes pop-up {
@@ -41,16 +40,6 @@
   animation: pop-up 0.3s ease-out;
 }
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-
-.shake-animation {
-  animation: shake 0.5s ease-in-out;
-}
 
 .modal-content p{
   font-size: 1rem;
@@ -58,42 +47,41 @@
 }
 
 .error-modal {
-  background-color: rgb(255, 255, 255);
+  background-color: #ffdcd9;
 }
 
 .error-modal p {
-  color: rgb(208, 58, 58);
+  color: #b91c1c;
 }
 
 .success-modal {
-  background-color: rgb(255, 255, 255);
-  color: #28a745;
+  background-color: #e1fff1;
 }
 
 .success-modal p {
-  color: #28a745;
+  color: #059669;
 }
 
 .success-icon {
   font-size: 1.4rem;
-  color: #28a745;
+  color: #059669;
   margin-bottom: 1rem;
 }
 
 .info-modal {
-  background-color: rgb(255, 255, 255);
-  color: #17a2b8; 
+  background-color: #eff6ff;
+  color: #2563eb; 
 }
 
 .question-icon {
   font-size: 1.4rem;
-  color: #17a2b8;
+  color: #2563eb;
   margin-bottom: 1rem;
 }
 
 .error-icon {
   font-size: 1.4rem;
-  color: #dc3545;
+  color: #b91c1c;
   margin-bottom: .7rem;
 }
 
@@ -116,35 +104,23 @@
 
 .cancel-button {
   background-color: #6f42c1;
-  color: white; 
+  color: white;
+  transition: background-color 0.3s ease-in-out;
+}
 
-  &:hover {
-    background-color: #6c35d2;
-  }
+.cancel-button:hover {
+  background-color: #6c35d2;
 }
 
 .confirm-button {
-  background-color: #007bff; 
+  background-color: #007bff;
   color: white;
   border-color: #007bff;
-
-  &:hover {
-    background-color: #0056b3; 
-  }
+  transition: background-color 0.3s ease-in-out;
 }
 
-@media (max-width: 492px) {
-  .modal-content {
-    padding: 1.5rem;
-    max-width: 85%;
-  }
-
-  .error-icon {
-    font-size: 1.3rem;
-  }
-
-  .button {
-    padding: 0.45rem 1.5rem;
-  }
-
+.confirm-button:hover {
+  background-color: #0056b3;
 }
+
+

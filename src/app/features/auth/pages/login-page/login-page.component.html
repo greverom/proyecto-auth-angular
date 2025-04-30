@@ -1,1 +1,9 @@
-<app-login-form></app-login-form>
+<app-login-form (loginSubmitted)="handleLogin($event)" />
+
+<app-modal
+  [showModal]="modal.show"
+  [message]="modal.message"
+  [isError]="modal.isError"
+  [isSuccess]="modal.isSuccess"
+  (close)="modal.close()">
+</app-modal>
