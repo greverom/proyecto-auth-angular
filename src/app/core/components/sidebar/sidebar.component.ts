@@ -1,6 +1,7 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 export interface SidebarItem {
   icon: string;
@@ -16,7 +17,7 @@ export interface SidebarItem {
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  @Input() isSidebarClosed = false;
+  @Input() isSidebarClosed = true;
 
   currentRoute: string = '';
   categoryStates: Record<string, boolean> = {};
@@ -27,7 +28,7 @@ export class SidebarComponent implements OnInit {
     { icon: 'settings', text: 'Configuración', route: '/settings' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
@@ -76,6 +77,15 @@ export class SidebarComponent implements OnInit {
 
     if (!isClickInsideSidebar && window.innerWidth <= 768) {
       this.isSidebarClosed = true;
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
     }
   }
 }
