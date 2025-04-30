@@ -1,0 +1,100 @@
+<!-- Sprite de íconos SVG de Google Material Icons -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="icon-home" viewBox="0 0 24 24">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </symbol>
+    <symbol id="icon-person" viewBox="0 0 24 24">
+      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+    </symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24">
+      <path d="M19.43 12.98l1.77-1.77-1.41-1.41-1.77 1.77c-.38-.19-.79-.34-1.21-.43L16 6h-2l-.26 3.14c-.42.09-.83.24-1.21.43L10.76 9.8 9.35 11.2l1.77 1.77c-.19.38-.34.79-.43 1.21L6 14v2l3.14.26c.09.42.24.83.43 1.21l-1.77 1.77 1.41 1.41 1.77-1.77c.38.19.79.34 1.21.43L14 22h2l.26-3.14c.42-.09.83-.24 1.21-.43l1.77 1.77 1.41-1.41-1.77-1.77c.19-.38.34-.79.43-1.21L22 16v-2l-3.14-.26c-.09-.42-.24-.83-.43-1.21zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5S10.07 8.5 12 8.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+    </symbol>
+    <symbol id="icon-logout" viewBox="0 0 24 24">
+      <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L13.67 11H3v2h10.67l-3.58 3.59z"/>
+    </symbol>
+  </svg>
+  
+  <!-- Sidebar -->
+  <div
+    class="sidebar"
+    [class.closed]="isSidebarClosed"
+    (mouseleave)="closeSidebar($event)"
+    (mouseover)="openSidebar($event)"
+  >
+  
+    <!-- Logo y usuario -->
+    <div class="logo-user-container">
+      <div class="logo-container">
+        <img src="/favicon.ico" alt="Logo" />
+      </div>
+      <div class="user-info" *ngIf="!isSidebarClosed">
+        <h2 class="hello-text">Hola,</h2>
+        <p class="user-name">Usuario de Ejemplo</p>
+      </div>
+    </div>
+  
+    <!-- Navegación -->
+    <div class="nav-section">
+      <div
+        class="nav-item"
+        *ngFor="let item of navItems"
+        [class.active]="isActive(item.route)"
+      >
+        <a [routerLink]="item.route">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+            <use [attr.href]="'#icon-' + item.icon"></use>
+          </svg>
+          <span class="link-text">{{ item.text }}</span>
+        </a>
+      </div>
+  
+      <!-- Dropdown categoría de ejemplo -->
+      <div class="nav-group">
+        <div
+          class="category-header"
+          [class.closed]="isSidebarClosed"
+          (click)="toggleCategory('Ejemplo')"
+          [class.collapsed]="!categoryStates['Ejemplo']"
+          [class.active]="currentRoute.includes('/ejemplo')"
+        >
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+            <path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4Zm0 9h7v7h-7v-7ZM4 13h7v7H4v-7Z"/>
+          </svg>
+          <span>Ejemplo</span>
+          <i class="fas fa-chevron-down chevron-icon"></i>
+        </div>
+  
+        <ul *ngIf="categoryStates['Ejemplo']" class="group-list">
+          <li>
+            <a [routerLink]="'/ejemplo/opcion1'">
+              <span class="link-text">Opción 1</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/ejemplo/opcion2'">
+              <span class="link-text">Opción 2</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Logout -->
+    <div class="logout">
+      <a>
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+          <use href="#icon-logout"></use>
+        </svg>
+        <span class="link-text">Salir</span>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Flecha -->
+  <div
+    class="arrow-icon"
+    *ngIf="isSidebarClosed"
+    (click)="openSidebar($event)"
+  >
+    <i class="fas fa-chevron-right"></i>
+  </div>
