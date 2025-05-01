@@ -9,6 +9,13 @@ export interface SidebarItem {
   route: string;
 }
 
+export interface SidebarCategory {
+  icon: string;
+  title: string;
+  baseRoute: string;
+  children: { text: string; route: string }[];
+}
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -17,7 +24,7 @@ export interface SidebarItem {
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  @Input() isSidebarClosed = false;
+  @Input() isSidebarClosed = true;
 
   currentRoute: string = '';
   categoryStates: Record<string, boolean> = {};
@@ -28,11 +35,27 @@ export class SidebarComponent implements OnInit {
     { icon: 'settings', text: 'Configuración', route: '/settings' }
   ];
 
+  navCategories: SidebarCategory[] = [
+    {
+      icon: 'grid_view',
+      title: 'Ejemplo',
+      baseRoute: '/ejemplo',
+      children: [
+        { text: 'Opción 1', route: '/ejemplo/opcion1' },
+        { text: 'Opción 2', route: '/ejemplo/opcion2' }
+      ]
+    },
+  ];
+
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
-    this.categoryStates['Ejemplo'] = false;
+
+    this.navCategories.forEach((cat) => {
+      this.categoryStates[cat.title] = false;
+    });
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
@@ -46,11 +69,7 @@ export class SidebarComponent implements OnInit {
 
   toggleCategory(title: string) {
     for (const key in this.categoryStates) {
-      if (key === title) {
-        this.categoryStates[key] = !this.categoryStates[key];
-      } else {
-        this.categoryStates[key] = false;
-      }
+      this.categoryStates[key] = key === title ? !this.categoryStates[key] : false;
     }
   }
 
@@ -62,11 +81,7 @@ export class SidebarComponent implements OnInit {
   closeSidebar(event: Event) {
     event.stopPropagation();
     this.isSidebarClosed = true;
-    for (const title in this.categoryStates) {
-      if (this.categoryStates.hasOwnProperty(title)) {
-        this.categoryStates[title] = false;
-      }
-    }
+    Object.keys(this.categoryStates).forEach((key) => (this.categoryStates[key] = false));
   }
 
   @HostListener('document:click', ['$event'])

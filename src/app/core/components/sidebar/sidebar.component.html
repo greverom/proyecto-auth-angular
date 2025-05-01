@@ -12,6 +12,10 @@
     <symbol id="icon-logout" viewBox="0 0 24 24">
       <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L13.67 11H3v2h10.67l-3.58 3.59z"/>
     </symbol>
+    <symbol id="icon-grid_view" viewBox="0 0 24 24">
+      <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zm0 10h8v8h-8v-8zM3 13h8v8H3v-8z"/>
+    </symbol>
+    
   </svg>
   
   <!-- Sidebar -->
@@ -48,31 +52,26 @@
         </a>
       </div>
   
-      <!-- Dropdown categoría de ejemplo -->
-      <div class="nav-group">
+      <!-- Categorías con dropdown -->
+      <div class="nav-group" *ngFor="let category of navCategories">
         <div
           class="category-header"
           [class.closed]="isSidebarClosed"
-          (click)="toggleCategory('Ejemplo')"
-          [class.collapsed]="!categoryStates['Ejemplo']"
-          [class.active]="currentRoute.includes('/ejemplo')"
+          (click)="toggleCategory(category.title)"
+          [class.collapsed]="!categoryStates[category.title]"
+          [class.active]="currentRoute.includes(category.baseRoute)"
         >
           <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-            <path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4Zm0 9h7v7h-7v-7ZM4 13h7v7H4v-7Z"/>
+            <use [attr.href]="'#icon-' + category.icon"></use>
           </svg>
-          <span>Ejemplo</span>
+          <span>{{ category.title }}</span>
           <i class="fas fa-chevron-down chevron-icon"></i>
         </div>
-  
-        <ul *ngIf="categoryStates['Ejemplo']" class="group-list">
-          <li>
-            <a [routerLink]="'/ejemplo/opcion1'">
-              <span class="link-text">Opción 1</span>
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="'/ejemplo/opcion2'">
-              <span class="link-text">Opción 2</span>
+
+        <ul *ngIf="categoryStates[category.title]" class="group-list">
+          <li *ngFor="let child of category.children">
+            <a [routerLink]="child.route">
+              <span class="link-text">{{ child.text }}</span>
             </a>
           </li>
         </ul>
