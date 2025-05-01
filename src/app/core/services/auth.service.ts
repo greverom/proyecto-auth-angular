@@ -12,12 +12,11 @@ export class AuthService {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
 
-    const { user, session } = data;
-    if (!user || !session) throw new Error('No se pudo recuperar la sesión.');
+    const { user } = data;
+    if (!user) throw new Error('No se pudo recuperar la sesión.');
 
-    const token = session.access_token;
-
-    document.cookie = `auth_token=${token}; path=/; secure; samesite=Strict`;
+    // const token = session.access_token;
+    // document.cookie = `auth_token=${token}; path=/; secure; samesite=Strict`;
 
     const userData: User = {
       id: user.id,
