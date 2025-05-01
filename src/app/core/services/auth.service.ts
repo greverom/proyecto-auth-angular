@@ -12,8 +12,12 @@ export class AuthService {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
 
-    const { user } = data;
-    if (!user) throw new Error('No se pudo recuperar información del usuario.');
+    const { user, session } = data;
+    if (!user || !session) throw new Error('No se pudo recuperar la sesión.');
+
+    const token = session.access_token;
+
+    document.cookie = `auth_token=${token}; path=/; secure; samesite=Strict`;
 
     const userData: User = {
       id: user.id,
@@ -33,6 +37,7 @@ export class AuthService {
 
   async logout(): Promise<void> {
     await supabase.auth.signOut();
+    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
     this.store.dispatch(unsetUserData());
     this.store.dispatch(setLoggedInStatus({ isLoggedIn: false }));
     this.store.dispatch(setAdminStatus({ isAdmin: false }));

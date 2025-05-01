@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:proyecto-auth-angular": "node dist/proyecto-auth-angular/server/server.mjs"
+    "serve:ssr:proyecto-auth-angular": "node dist/proyecto-auth-angular/server/server.mjs",
+    "build:ssr": "ng build && ng run proyecto-auth-angular:server",
+    "serve:ssr": "node dist/proyecto-auth-angular/server/server.mjs",
+    "dev:ssr": "ng run proyecto-auth-angular:serve-ssr"
   },
   "private": true,
   "dependencies": {
@@ -26,11 +29,12 @@
     "@ngrx/signals": "^19.1.0",
     "@ngrx/store": "^19.1.0",
     "@ngrx/store-devtools": "^19.1.0",
+    "@nguniversal/express-engine": "^7.0.2",
     "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/postcss": "^4.1.4",
+    "cookie": "^1.0.2",
     "express": "^4.18.2",
     "flowbite": "^3.1.2",
-    "flowbite-angular": "^1.3.0",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.4",
