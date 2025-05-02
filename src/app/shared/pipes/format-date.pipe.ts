@@ -1,4 +1,3 @@
-// format-date.pipe.ts
 import { Pipe, PipeTransform } from '@angular/core';
 import { DateTime } from 'luxon';
 
@@ -11,8 +10,8 @@ export class FormatDatePipe implements PipeTransform {
     if (!value) return '—';
 
     const date = DateTime.fromISO(String(value));
-    if (!date.isValid) return String(value); 
+    if (!date.isValid) return String(value);
 
-    return date.setZone('America/Guayaquil').toFormat(format);
+    return date.toFormat(format);
   }
 }

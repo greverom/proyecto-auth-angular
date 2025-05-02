@@ -15,7 +15,7 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "typeRoots": ["node_modules/@types", "src/types"],
     "importHelpers": true,
     "target": "ES2022",
