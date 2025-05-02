@@ -8,8 +8,9 @@ import { RegisterFormComponent } from '../register-form/register-form.component'
   standalone: true,
   imports: [CommonModule, LoginFormComponent, RegisterFormComponent],
   template: `
-    <div class="fixed inset-0 backdrop-blur-sm overflow-y-auto flex items-center justify-center z-50" *ngIf="visible">
-    <div class="bg-white rounded-md shadow-md w-full max-w-[340px] sm:max-w-[370px] mx-4 sm:mx-0 relative max-h-[90vh] overflow-y-auto">
+    <div class="fixed inset-0 bg-gray-200 backdrop-blur-sm overflow-y-auto flex items-center justify-center z-50" *ngIf="visible">
+    <div class="bg-white rounded-md shadow-md w-full max-w-[340px] sm:max-w-[370px] mx-4 sm:mx-0 relative max-h-[90vh] overflow-y-auto
+                animate-slide-up">
         <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-800" (click)="close.emit()">✕</button>
 
         <ng-container *ngIf="isLoginMode; else registerBlock">
