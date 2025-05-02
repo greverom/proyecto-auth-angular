@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return from(this.authService.restoreSession()).pipe(
       switchMap(() => this.store.select(selectIsLoggedIn).pipe(take(1))),
       map((isLoggedIn) =>
-        isLoggedIn ? true : this.router.parseUrl('/login')
+        isLoggedIn ? true : this.router.parseUrl('/')
       )
     );
   }
