@@ -30,9 +30,9 @@ export class SidebarComponent implements OnInit {
   categoryStates: Record<string, boolean> = {};
 
   navItems: SidebarItem[] = [
-    { icon: 'home', text: 'Inicio', route: '/home' },
-    { icon: 'person', text: 'Perfil', route: '/profile' },
-    { icon: 'settings', text: 'Configuración', route: '/settings' }
+    { icon: 'home', text: 'Inicio', route: '/dashboard' },
+    { icon: 'person', text: 'Perfil', route: '/dashboard/perfil' },
+    { icon: 'settings', text: 'Configuración', route: '/dashboard/settings' }
   ];
 
   navCategories: SidebarCategory[] = [

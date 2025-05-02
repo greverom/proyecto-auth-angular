@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../shared/models/user.model'; 
+import { User } from '../../../../shared/models/user.model';
+
 
 @Component({
   selector: 'app-user-card',

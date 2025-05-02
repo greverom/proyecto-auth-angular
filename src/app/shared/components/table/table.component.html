@@ -1,0 +1,57 @@
+<div class="w-full max-w-7xl lg:max-w-6xl mx-auto px-2">
+  <div class="overflow-x-auto rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
+      <thead class="bg-gray-100 dark:bg-zinc-800">
+        <tr>
+          <th *ngIf="selectable" class="px-4 py-2">
+            <input type="checkbox" [checked]="selectedItems.length === data.length" (change)="selectAll($event)">
+          </th>
+          <th *ngFor="let col of columns" class="text-left px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300">
+            {{ col }}
+          </th>
+          <th *ngIf="showActions" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
+        <tr *ngFor="let item of paginatedData" class="bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800">
+          <td *ngIf="selectable" class="px-4 py-2">
+            <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelection(item)">
+          </td>
+          <td *ngFor="let key of getObjectKeys(item)" class="px-4 py-2 text-sm text-gray-700 dark:text-zinc-300">
+            {{ item[key] }}
+          </td>
+          <td *ngIf="showActions" class="px-4 py-2">
+            <button
+              *ngFor="let action of actions"
+              class="text-sm font-medium text-blue-600 hover:underline mr-2"
+              (click)="onActionClick(action, item)">
+              {{ action | titlecase }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  
+  <!-- Pagination -->
+<div *ngIf="manualPagination" class="flex justify-between items-center mt-4">
+  <div class="text-sm text-gray-600 dark:text-zinc-300">
+    Página {{ currentPage }} de {{ totalPages }}
+  </div>
+  <div class="space-x-2">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50">
+      Anterior
+    </button>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50">
+      Siguiente
+    </button>
+  </div>
+</div>

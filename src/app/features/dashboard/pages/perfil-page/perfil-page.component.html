@@ -1,1 +1,7 @@
-<p>perfil-page works!</p>
+<div class="p-4">
+    <h1 class="text-xl font-bold mb-4">Información del Usuario</h1>
+  
+    <ng-container *ngIf="user$ | async as user">
+      <app-profile-table [user]="user"></app-profile-table>
+    </ng-container>
+  </div>
