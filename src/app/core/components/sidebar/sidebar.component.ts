@@ -24,7 +24,7 @@ interface SidebarItem {
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  @Input() isSidebarClosed = false;
+  @Input() isSidebarClosed = true;
 
   currentRoute: string = '';
   categoryStates: Record<string, boolean> = {};

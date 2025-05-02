@@ -1,31 +1,31 @@
 <div class="px-0 md:px-6 lg:px-8 max-w-7xl mx-auto">
   <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
     <app-card title="Nombre" *ngIf="user.name">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.name }}</p>
+      <p>{{ user.name }}</p>
     </app-card>
 
     <app-card title="Email" *ngIf="user.email">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.email }}</p>
+      <p>{{ user.email }}</p>
     </app-card>
 
     <app-card title="Rol" *ngIf="user.role">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.role }}</p>
+      <p>{{ user.role }}</p>
     </app-card>
 
     <app-card title="Teléfono" *ngIf="user.phone">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.phone }}</p>
+      <p>{{ user.phone }}</p>
     </app-card>
 
     <app-card title="Último ingreso" *ngIf="user.last_sign_in_at">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.last_sign_in_at | date:'short' }}</p>
+      <p>{{ user.last_sign_in_at | date:'short' }}</p>
     </app-card>
 
     <app-card title="Creado el" *ngIf="user.created_at">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.created_at | date:'short' }}</p>
+      <p>{{ user.created_at | date:'short' }}</p>
     </app-card>
 
     <app-card title="Actualizado el" *ngIf="user.updated_at">
-      <p class="text-xs sm:text-sm text-gray-700">{{ user.updated_at | date:'short' }}</p>
+      <p>{{ user.updated_at | date:'short' }}</p>
     </app-card>
   </div>
 </div>

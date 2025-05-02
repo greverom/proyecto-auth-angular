@@ -1,15 +1,9 @@
-<div
-  class="rounded-2xl shadow-md bg-white border border-gray-200 text-gray-800 w-full max-w-md 
-         transition-transform hover:scale-[1.02] px-4 py-3 sm:px-6 sm:py-6 {{ padding }} {{ extraClasses }}"
->
-  <h2
-    *ngIf="title"
-    class="text-base md:text-xl font-bold mb-4 border-b border-gray-200 pb-2 truncate"
-  >
+<div class="rounded-md bg-white border border-gray-200 text-gray-800 w-full max-w-md 
+      transition-transform hover:scale-[1.02] px-4 py-3 sm:px-4 sm:py-3 {{ padding }} {{ extraClasses }}">
+  <h2 *ngIf="title" class="text-base md:text-md font-bold mb-4 border-b border-gray-200 pb-2 truncate">
     {{ title }}
   </h2>
-
-  <div class="text-sm md:text-base break-words">
+  <div class="text-xs sm:text-sm text-gray-700 break-words">
     <ng-content></ng-content>
   </div>
 </div>
