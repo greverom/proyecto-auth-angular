@@ -64,7 +64,11 @@ export class SidebarComponent implements OnInit {
   }
 
   isActive(route: string): boolean {
-    return this.currentRoute === route || this.currentRoute.startsWith(route + '/');
+    return this.currentRoute === route ;
+  }
+
+  isCategoryActive(baseRoute: string): boolean {
+    return this.currentRoute.startsWith(baseRoute);
   }
 
   toggleCategory(title: string) {

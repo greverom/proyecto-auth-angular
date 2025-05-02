@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormatDatePipe } from '../../pipes/format-date.pipe';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormatDatePipe],
   templateUrl: './table.component.html',
 })
 export class TableComponent implements OnChanges {
@@ -80,5 +81,9 @@ export class TableComponent implements OnChanges {
 
   getObjectKeys(item: any): string[] {
     return Object.keys(item);
+  }
+
+  isDateField(value: any): boolean {
+    return typeof value === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value);
   }
 }

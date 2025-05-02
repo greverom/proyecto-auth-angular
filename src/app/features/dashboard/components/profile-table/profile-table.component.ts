@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../../shared/models/user.model';
 import { TableComponent } from '../../../../shared/components/table/table.component';
@@ -12,11 +12,30 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
 export class ProfileTableComponent {
   @Input() user: User | null = null;
 
+
   get columns(): string[] {
-    return ['ID', 'Nombre', 'Correo', 'Rol'];
+    return [
+      'Nombre',
+      'Correo',
+      'Rol',
+      'Teléfono',
+      'Último ingreso',
+      'Creado el',
+      'Actualizado el'
+    ];
   }
 
   get data(): any[] {
-    return this.user ? [this.user] : [];
+    if (!this.user) return [];
+
+    return [{
+      Nombre: this.user.name,
+      Correo: this.user.email,
+      Rol: this.user.role,
+      Teléfono: this.user.phone || '—',
+      'Último ingreso': this.user.last_sign_in_at || '—',
+      'Creado el': this.user.created_at || '—',
+      'Actualizado el': this.user.updated_at || '—'
+    }];
   }
 }

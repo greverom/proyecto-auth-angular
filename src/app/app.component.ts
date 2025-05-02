@@ -35,8 +35,8 @@ export class AppComponent implements OnInit {
     this.isAdmin$ = this.store.select(selectIsAdmin);
     this.userData$ = this.store.select(selectUserData);
 
-    this.isLoggedIn$.subscribe(value => console.log('¿Está logueado?', value));
-    this.isAdmin$.subscribe(value => console.log('¿Es admin?', value));
-    this.userData$.subscribe(user => console.log('Usuario:', user));
+    // this.isLoggedIn$.subscribe(value => console.log('¿Está logueado?', value));
+    // this.isAdmin$.subscribe(value => console.log('¿Es admin?', value));
+    // this.userData$.subscribe(user => console.log('Usuario:', user));
   }
 }

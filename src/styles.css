@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
-
 .main-content {
-    padding-left: 80px; 
+    padding-left: 60px; 
     min-height: 100vh;
     transition: padding-left 0.7s ease;
   }
