@@ -1,23 +1,26 @@
-<div class="w-full max-w-7xl lg:max-w-6xl mx-auto px-2">
+<div class="w-full max-w-[1100px] mx-auto px-2">
   <div class="overflow-x-auto rounded-lg shadow">
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
-      <thead class="bg-gray-100 dark:bg-zinc-800">
+    <table class="min-w-full divide-y divide-gray-200">
+      <!-- Encabezado gris claro -->
+      <thead class="bg-gray-100">
         <tr>
-          <th *ngIf="selectable" class="px-4 py-2">
+          <th *ngIf="selectable" class="px-4 py-2 text-gray-700 bg-gray-100">
             <input type="checkbox" [checked]="selectedItems.length === data.length" (change)="selectAll($event)">
           </th>
-          <th *ngFor="let col of columns" class="text-left px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300">
+          <th *ngFor="let col of columns" class="text-left px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100">
             {{ col }}
           </th>
-          <th *ngIf="showActions" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300">Acciones</th>
+          <th *ngIf="showActions" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100">Acciones</th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
-        <tr *ngFor="let item of paginatedData" class="bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800">
-          <td *ngIf="selectable" class="px-4 py-2">
+
+      <!-- Cuerpo con celdas claras -->
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let item of paginatedData" class="bg-white hover:bg-gray-50">
+          <td *ngIf="selectable" class="px-4 py-2 text-gray-700">
             <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelection(item)">
           </td>
-          <td *ngFor="let key of getObjectKeys(item)" class="px-4 py-2 text-sm text-gray-700 dark:text-zinc-300">
+          <td *ngFor="let key of getObjectKeys(item)" class="px-4 py-2 text-sm text-gray-700">
             {{ item[key] }}
           </td>
           <td *ngIf="showActions" class="px-4 py-2">
@@ -33,7 +36,6 @@
     </table>
   </div>
 </div>
-
   
   <!-- Pagination -->
 <div *ngIf="manualPagination" class="flex justify-between items-center mt-4">
