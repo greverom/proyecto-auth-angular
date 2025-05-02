@@ -1,14 +1,5 @@
-import {
-  Injectable,
-  Inject,
-  PLATFORM_ID,
-} from '@angular/core';
-import {
-  CanActivate,
-  CanActivateChild,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, from } from 'rxjs';
 import { switchMap, take, map } from 'rxjs/operators';

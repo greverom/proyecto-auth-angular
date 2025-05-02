@@ -3,13 +3,13 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
-export interface SidebarItem {
+interface SidebarItem {
   icon: string;
   text: string;
   route: string;
 }
 
-export interface SidebarCategory {
+ interface SidebarCategory {
   icon: string;
   title: string;
   baseRoute: string;
@@ -24,7 +24,7 @@ export interface SidebarCategory {
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
-  @Input() isSidebarClosed = true;
+  @Input() isSidebarClosed = false;
 
   currentRoute: string = '';
   categoryStates: Record<string, boolean> = {};

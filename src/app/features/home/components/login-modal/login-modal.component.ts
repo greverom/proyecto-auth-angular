@@ -31,7 +31,8 @@ import { RegisterFormComponent } from '../register-form/register-form.component'
     </div>
   `
 })
-export class LoginModalComponent {
+
+export class AuthModalComponent {
   @Input() visible = false;
   @Output() close = new EventEmitter<void>();
   @Output() login = new EventEmitter<{ email: string; password: string }>();
