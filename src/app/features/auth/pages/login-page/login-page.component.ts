@@ -4,7 +4,8 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../../../shared/models/user.model';
 import { SpinnerService } from '../../../../core/services/spinner.service';
-import { ModalService } from '../../../../core/services/modal.service'; // nuevo
+import { ModalService } from '../../../../core/services/modal.service'; 
+import { ModalComponent } from '../../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-login-page',
@@ -22,13 +23,15 @@ export class LoginPageComponent {
 
   async handleLogin({ email, password }: { email: string; password: string }) {
     this.spinner.show();
-
+  
     try {
       const user: User = await this.authService.login(email, password);
       await this.router.navigate(['/dashboard']);
-    } catch (error) {
+    } catch (error: any) {
+      const message = error?.message || 'Error al iniciar sesión.';
+  
       this.modalService.show({
-        message: 'Error al iniciar sesión',
+        message,
         isError: true,
         show: true,
         showButtons: false,
