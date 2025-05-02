@@ -3,61 +3,39 @@ import { LoginFormComponent } from '../../components/login-form/login-form.compo
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../../../shared/models/user.model';
-import { ModalDto, modalInitializer } from '../../../../shared/modal/modal.dto';
-import { ModalComponent } from '../../../../shared/modal/modal.component';
-import { SpinnerComponent } from '../../../../shared/spinner/spinner.component';
 import { SpinnerService } from '../../../../core/services/spinner.service';
+import { ModalService } from '../../../../core/services/modal.service'; // nuevo
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [
-    LoginFormComponent,
-    ModalComponent],
+  imports: [LoginFormComponent],
   templateUrl: './login-page.component.html'
 })
 export class LoginPageComponent {
-  modal: ModalDto = modalInitializer();
-  
   constructor(
     private authService: AuthService,
     private router: Router,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
+    private modalService: ModalService 
   ) {}
 
   async handleLogin({ email, password }: { email: string; password: string }) {
     this.spinner.show();
-  
+
     try {
       const user: User = await this.authService.login(email, password);
       await this.router.navigate(['/dashboard']);
     } catch (error) {
-      this.showModal(this.createModalParams(true, 'Error al iniciar sesión'));
+      this.modalService.show({
+        message: 'Error al iniciar sesión',
+        isError: true,
+        show: true,
+        showButtons: false,
+        close: () => {},
+      });
     } finally {
       this.spinner.hide();
     }
-  }
-
-  showModal(params: ModalDto) {
-    this.modal = { ...params };
-  
-    setTimeout(() => {
-      this.modal.close();
-    }, 2500);
-  }
-  
-  createModalParams(isError: boolean, message: string): ModalDto {
-    return {
-      ...this.modal,
-      show: true,
-      isError,
-      isSuccess: !isError,
-      message,
-      close: () => this.closeModal()
-    };
-  }
-  
-  closeModal() {
-    this.modal.show = false;
   }
 }

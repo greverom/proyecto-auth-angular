@@ -1,20 +1,19 @@
-<div *ngIf="showModal" class="modal-overlay">
+<div *ngIf="modal.show" class="modal-overlay">
   <div class="modal-content" [ngClass]="{
-    'error-modal': isError,  
-    'success-modal': isSuccess,
-    'info-modal': isInfo,
+    'error-modal': modal.isError,
+    'success-modal': modal.isSuccess,
+    'info-modal': modal.isInfo,
     'pop-up-animation': true
   }">
+    <i *ngIf="modal.isError" class="fas fa-exclamation-circle error-icon"></i>
+    <i *ngIf="modal.isSuccess" class="fas fa-check-circle success-icon"></i>
+    <i *ngIf="modal.isInfo" class="fas fa-question-circle question-icon"></i>
 
-    <i *ngIf="isError" class="fas fa-exclamation-circle error-icon"></i>
-    <i *ngIf="isSuccess" class="fas fa-check-circle success-icon"></i>
-    <i *ngIf="isInfo" class="fas fa-question-circle question-icon"></i>
+    <p>{{ modal.message }}</p>
 
-    <p>{{ message }}</p>
-
-    <div class="modal-buttons" *ngIf="showButtons">
+    <div class="modal-buttons" *ngIf="modal.showButtons">
       <button class="button confirm-button" (click)="confirm()">Aceptar</button>
-      <button class="button cancel-button" (click)="close.emit()">Cancelar</button>
+      <button class="button cancel-button" (click)="closeModal()">Cancelar</button>
     </div>
   </div>
 </div>

@@ -6,12 +6,13 @@ import { User } from './shared/models/user.model';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { ModalComponent } from './shared/modal/modal.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet ],
+    RouterOutlet, ModalComponent ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

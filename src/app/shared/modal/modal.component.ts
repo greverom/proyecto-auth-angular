@@ -1,29 +1,41 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ModalService } from '../../core/services/modal.service';
+import { ModalDto } from './modal.dto';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [CommonModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
-export class ModalComponent {
-  @Input() showModal: boolean = false;
-  @Input() message: string = 'An error occurred'; 
-  @Input() isError: boolean = true;  
-  @Input() isSuccess: boolean = false;  
-  @Input() showButtons: boolean = false;
-  @Input() isInfo: boolean = false;  
-  @Output() close = new EventEmitter<void>();
-  @Output() confirmAction = new EventEmitter<void>();
+export class ModalComponent implements OnInit {
+  modal: ModalDto;
 
-  confirm() {
-    this.confirmAction.emit(); 
+  constructor(private modalService: ModalService) {
+    this.modal = {
+      show: false,
+      message: '',
+      isError: false,
+      isSuccess: false,
+      isInfo: false,
+      close: () => {},
+      confirm: () => {}
+    };
   }
-  
-  closeModal() {
-    this.showModal = false;
-    this.close.emit();  
+
+  ngOnInit(): void {
+    this.modalService.modal$.subscribe(modal => {
+      this.modal = modal;
+    });
+  }
+
+  closeModal(): void {
+    this.modalService.close();
+  }
+
+  confirm(): void {
+    this.modalService.confirm();
   }
 }
