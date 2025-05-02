@@ -40,6 +40,33 @@ export class AuthService {
     return userData;
   }
 
+  async register(email: string, password: string, name: string): Promise<User> {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+          role: 'user' 
+        }
+      }
+    });
+  
+    if (error) throw error;
+  
+    const user = data.user;
+    if (!user) throw new Error('No se pudo completar el registro.');
+  
+    const userData = this.mapSupabaseUser(user);
+    const isAdmin = userData.role.toLowerCase() === 'administrador';
+  
+    this.store.dispatch(setUserData({ data: userData }));
+    this.store.dispatch(setLoggedInStatus({ isLoggedIn: true }));
+    this.store.dispatch(setAdminStatus({ isAdmin }));
+  
+    return userData;
+  }
+
   async restoreSession(): Promise<void> {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return;
