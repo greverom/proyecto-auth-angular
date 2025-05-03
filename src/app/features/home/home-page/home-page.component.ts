@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { SpinnerService } from '../../../core/services/spinner.service';
 import { AuthModalComponent} from '../components/login-modal/login-modal.component';
 import { NotificationService } from '../../../core/services/modal/notice.service';
+import { AuthLoggerService } from '../../../core/services/auth-logger.service';
 
 @Component({
   selector: 'app-home-page',
@@ -21,7 +22,8 @@ export class HomePageComponent {
     private authService: AuthService,
     private router: Router,
     private spinner: SpinnerService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private authLogger: AuthLoggerService,
   ) {}
 
   toggleLogin() {
@@ -33,6 +35,7 @@ export class HomePageComponent {
   
     try {
       const user: User = await this.authService.login(email, password);
+      await this.authLogger.logUserAction('LOGIN', user.id);
       await this.router.navigate(['/dashboard']);
     } catch (error: any) {
       const message = error?.message || 'Error al iniciar sesión.';
@@ -59,4 +62,6 @@ export class HomePageComponent {
       this.spinner.hide();
     }
   }
+
+  
 }

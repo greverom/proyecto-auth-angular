@@ -15,5 +15,10 @@ export const DASHBOARD_ROUTES: Routes = [
     path: 'contacts',
     loadComponent: () =>
       import('./pages/contact-page/contact-page.component').then(m => m.ContactPageComponent)
-  }
+  },
+  {
+    path: 'auditoria',
+    loadComponent: () =>
+      import('./pages/user-audit-table/user-audit-table-page/user-audit-table-page.component').then((m) => m.UserAuditTablePageComponent),
+  },
 ];

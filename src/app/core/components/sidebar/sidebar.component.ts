@@ -3,10 +3,11 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../../shared/models/user.model';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { selectUserData } from '../../store/user.selector';
 import { Store } from '@ngrx/store';
 import { NotificationService } from '../../services/modal/notice.service';
+import { AuthLoggerService } from '../../services/auth-logger.service';
 
 interface SidebarItem {
   icon: string;
@@ -38,7 +39,8 @@ export class SidebarComponent implements OnInit {
   navItems: SidebarItem[] = [
     { icon: 'home', text: 'Inicio', route: '/dashboard' },
     { icon: 'person', text: 'Perfil', route: '/dashboard/perfil' },
-    { icon: 'settings', text: 'Contactos', route: '/dashboard/contacts' }
+    { icon: 'settings', text: 'Contactos', route: '/dashboard/contacts' },
+    { icon: 'event', text: 'Eventos', route: '/dashboard/auditoria'}
   ];
 
   navCategories: SidebarCategory[] = [
@@ -58,6 +60,7 @@ export class SidebarComponent implements OnInit {
     private authService: AuthService,
     private store: Store,
     private notification: NotificationService,
+    private authLogger: AuthLoggerService
   ) {}
 
   ngOnInit(): void {
@@ -111,20 +114,27 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-async logout(): Promise<void> {
-  this.notification.confirm({
-    message: '¿Estás seguro que deseas cerrar sesión?',
-    confirm: async () => {
-      try {
-        await this.authService.logout();
-        this.router.navigate(['/auth/login']);
-      } catch (error) {
-        this.notification.error('Ocurrió un error al cerrar sesión.');
+  async logout(): Promise<void> {
+    this.notification.confirm({
+      message: '¿Estás seguro que deseas cerrar sesión?',
+      confirm: async () => {
+        try {
+          const user = await firstValueFrom(this.store.select(selectUserData));
+          const userId = user?.id;
+  
+          if (userId) {
+            await this.authLogger.logUserAction('LOGOUT', userId);
+          }
+  
+          await this.authService.logout();
+          this.router.navigate(['/auth/login']);
+        } catch (error) {
+          this.notification.error('Ocurrió un error al cerrar sesión.');
+        }
+      },
+      cancel: () => {
+        this.notification.success('Has cancelado el cierre de sesión.');
       }
-    },
-    cancel: () => {
-      this.notification.success('Has cancelado el cierre de sesión.');
-    }
-  });
-}
+    });
+  }
 }
