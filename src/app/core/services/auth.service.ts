@@ -47,8 +47,9 @@ export class AuthService {
       options: {
         data: {
           name,
-          role: 'user' 
-        }
+          role: 'user'
+        },
+        emailRedirectTo: 'http://localhost:4200/dashboard' 
       }
     });
   

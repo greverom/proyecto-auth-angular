@@ -14,5 +14,6 @@
 <app-login-modal
   [visible]="showLoginModal"
   (close)="toggleLogin()"
-  (login)="handleLogin($event)">
+  (login)="handleLogin($event)"
+  (register)="handleRegister($event)">
 </app-login-modal>

@@ -12,9 +12,9 @@
       <div class="logo-container">
         <img src="/favicon.ico" alt="Logo" />
       </div>
-      <div class="user-info" *ngIf="!isSidebarClosed">
+      <div class="user-info" *ngIf="!isSidebarClosed && (userData$ | async) as user">
         <h2 class="hello-text">Hola,</h2>
-        <p class="user-name">Usuario de Ejemplo</p>
+        <p class="user-name">{{ user.name || 'Usuario' }}</p>
       </div>
     </div>
   

@@ -48,4 +48,32 @@ export class HomePageComponent {
         this.spinner.hide();
       }
     }
+
+    async handleRegister({ name, email, password, role }: { name: string; email: string; password: string; role: string }) {
+      this.spinner.show();
+    
+      try {
+        await this.authService.register(email, password, name);
+        this.showLoginModal = false;
+    
+        this.modalService.show({
+          message: 'Cuenta creada correctamente. Revisa tu correo y confirma el registro para continuar.',
+          isError: false,
+          show: true,
+          showButtons: false,
+          close: () => {},
+        });
+      } catch (error: any) {
+        const message = error?.message || 'Error al registrarse.';
+        this.modalService.show({
+          message,
+          isError: true,
+          show: true,
+          showButtons: false,
+          close: () => {},
+        });
+      } finally {
+        this.spinner.hide();
+      }
+    }
 }

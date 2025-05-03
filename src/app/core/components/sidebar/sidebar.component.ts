@@ -2,6 +2,10 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../../shared/models/user.model';
+import { Observable } from 'rxjs';
+import { selectUserData } from '../../store/user.selector';
+import { Store } from '@ngrx/store';
 
 interface SidebarItem {
   icon: string;
@@ -25,6 +29,7 @@ interface SidebarItem {
 })
 export class SidebarComponent implements OnInit {
   @Input() isSidebarClosed = true;
+  userData$!: Observable<User | null>;
 
   currentRoute: string = '';
   categoryStates: Record<string, boolean> = {};
@@ -47,10 +52,11 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private store: Store,) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
+    this.userData$ = this.store.select(selectUserData);
 
     this.navCategories.forEach((cat) => {
       this.categoryStates[cat.title] = false;
