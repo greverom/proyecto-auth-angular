@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableComponent } from '../../../../shared/components/table/table.component';
-import { ContactService } from '../../../../core/services/contact.service';
-import { Contact } from '../../../../shared/models/contacts.model';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { ContactService } from '../../../../../core/services/contact.service';
+import { Contact } from '../../../../../shared/models/contacts.model';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
-import { selectUserData } from '../../../../core/store/user.selector';
-import { User } from '../../../../shared/models/user.model';
+import { selectUserData } from '../../../../../core/store/user.selector';
+import { User } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-contacts-table',

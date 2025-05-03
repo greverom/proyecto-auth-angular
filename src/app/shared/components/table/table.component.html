@@ -20,12 +20,12 @@
           <td *ngIf="selectable" class="px-4 py-2 text-gray-700">
             <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelection(item)">
           </td>
-          <td *ngFor="let key of getObjectKeys(item)" class="px-4 py-2 text-xs sm:text-sm text-gray-700">
-            <ng-container *ngIf="isDateField(item[key]); else showText">
-              {{ item[key] | formatDate }}
+          <td *ngFor="let col of columns" class="px-4 py-2 text-xs sm:text-sm text-gray-700">
+            <ng-container *ngIf="isDateField(item[col]); else showText">
+              {{ item[col] | formatDate }}
             </ng-container>
             <ng-template #showText>
-              {{ item[key] }}
+              {{ item[col] }}
             </ng-template>
           </td>
           <td *ngIf="showActions" class="px-4 py-2">

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormComponent } from '../../../../shared/components/form/form.component';
+import { FormComponent } from '../../../../../shared/components/form/form.component';
  // ajusta el path si es necesario
 
 @Component({

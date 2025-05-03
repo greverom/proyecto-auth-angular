@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactsTableComponent } from '../../components/contacts/contacts-table.component';
+import { ContactsTableComponent } from '../../components/contacts/tabla/contacts-table.component';
 import { ContactService } from '../../../../core/services/contact.service';
 import { Contact } from '../../../../shared/models/contacts.model';
 import { Store } from '@ngrx/store';
 import { selectUserData } from '../../../../core/store/user.selector';
 import { firstValueFrom } from 'rxjs';
-import { ContactModalComponent } from '../../components/contact-modal/contact-modal.component';
+import { ContactModalComponent } from '../../components/contacts/agregar-contact-modal/contact-modal.component';
 
 @Component({
   selector: 'app-contact-page',
@@ -16,7 +16,7 @@ import { ContactModalComponent } from '../../components/contact-modal/contact-mo
 })
 export class ContactPageComponent implements OnInit {
   contacts: Contact[] = [];
-  showModal = true;
+  showModal = false;
 
   constructor(
     private contactService: ContactService,
