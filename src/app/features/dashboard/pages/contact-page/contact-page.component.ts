@@ -17,6 +17,7 @@ import { ContactModalComponent } from '../../components/contacts/agregar-contact
 export class ContactPageComponent implements OnInit {
   contacts: Contact[] = [];
   showModal = false;
+  contactToEdit: Contact | null = null;
 
   constructor(
     private contactService: ContactService,
@@ -31,6 +32,7 @@ export class ContactPageComponent implements OnInit {
   }
 
   openAddModal() {
+    this.contactToEdit = null;
     this.showModal = true;
   }
 
@@ -38,26 +40,38 @@ export class ContactPageComponent implements OnInit {
     this.showModal = false;
   }
 
-  async handleCreateContact(formData: any) {
-    const camposRequeridos = ['name', 'last_name', 'email', 'phone'];
-    const camposFaltantes = camposRequeridos.filter(
-      (campo) => !formData[campo] || formData[campo].trim() === ''
-    );
-  
-    if (camposFaltantes.length > 0) {
-      return; 
+  onTableAction(event: { action: string; item: Contact }) {
+    if (event.action === 'edit') {
+      this.contactToEdit = event.item;
+      this.showModal = true;
     }
+  }
+
+  async handleCreateContact(payload: { data: Contact; id?: number }) {
+    const { data, id } = payload;
+  
+    const camposRequeridos: (keyof Contact)[] = ['cedula', 'name', 'last_name', 'email', 'phone', 'age'];
+    const camposFaltantes = camposRequeridos.filter(
+      (campo) => !data[campo] || (typeof data[campo] === 'string' && data[campo].trim() === '')
+    );
+    if (camposFaltantes.length > 0) return;
   
     const user = await firstValueFrom(this.store.select(selectUserData));
     if (!user?.id) return;
   
-    const cleanData = {
-      ...formData,
+    const contacto: Contact = {
+      ...data,
       user_id: user.id,
     };
   
-    await this.contactService.createContact(cleanData);
+    if (id) {
+      await this.contactService.updateContact(id, contacto); 
+    } else {
+      await this.contactService.createContact(contacto);
+    }
+  
     this.contacts = await this.contactService.getContactsByUser(user.id);
-    this.closeModal(); 
+    this.closeModal();
+    this.contactToEdit = null;
   }
 }

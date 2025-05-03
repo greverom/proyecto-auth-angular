@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { cedulaEcuadorValidator } from '../../validators/ecuador-id.validators';
+import { Contact } from '../../models/contacts.model';
 
 @Component({
   selector: 'app-form',
@@ -12,7 +14,7 @@ export class FormComponent {
   @Input() formFields: { name: string; label: string; type: string; required?: boolean }[] = [];
   @Input() submitLabel = 'Guardar';
   @Input() cancelLabel = 'Cancelar';
-
+  @Input() contactToEdit: Contact | null = null;
   @Output() submitForm = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -24,12 +26,41 @@ export class FormComponent {
 
   ngOnInit() {
     const group: Record<string, any> = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
     this.formFields.forEach(field => {
-      group[field.name] = field.required ? [null, Validators.required] : [null];
+      const validators = [];
+      if (field.required) validators.push(Validators.required);
+      if (field.name === 'email') {
+        validators.push(Validators.pattern(emailRegex));
+      }
+      if (field.name === 'age') {
+        validators.push(Validators.min(1), Validators.max(99));
+      }
+      if (field.name === 'cedula') {
+        validators.push(cedulaEcuadorValidator);
+      }
+
+      const initialValue = this.contactToEdit?.[field.name as keyof Contact] ?? null;
+      group[field.name] = [initialValue, validators];
     });
+
     this.form = this.fb.group(group);
   }
 
+  getErrorMessage(fieldName: string): string | null {
+    const control = this.form.get(fieldName);
+    if (!control || !control.touched || !control.errors) return null;
+  
+    if (control.errors['required']) return 'Este campo es obligatorio.';
+    if (fieldName === 'cedula' && control.errors['cedulaInvalida']) return 'Cédula ecuatoriana no válida.';
+    if (fieldName === 'email' && control.errors['pattern']) return 'Ingresa un correo electrónico válido.';
+    if (fieldName === 'age' && control.errors['min']) return 'La edad mínima es 1.';
+    if (fieldName === 'age' && control.errors['max']) return 'La edad máxima es 99.';
+  
+    return null;
+  }
+  
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

@@ -12,7 +12,6 @@ import { UserCardComponent } from '../../components/user-card/user-card.componen
   selector: 'app-dashboard-page',
   imports: [CommonModule, UserCardComponent],
   templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.css'
 })
 export class DashboardPageComponent {
   user$!: Observable<User | null>;

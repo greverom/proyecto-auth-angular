@@ -1,17 +1,22 @@
 <div class="max-w-6xl mx-auto px-4 py-6">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">Mis Contactos</h1>
-  
-    <button
-      class="mb-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded transition"
-      (click)="openAddModal()"
-    >
-      + Nuevo contacto
-    </button>
-  
-    <app-contacts-table [contacts]="contacts"></app-contacts-table>
-    <app-contact-modal
+  <h1 class="text-2xl font-bold mb-4 text-gray-800">Mis Contactos</h1>
+
+  <button
+    class="mb-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded transition"
+    (click)="openAddModal()"
+  >
+    + Nuevo contacto
+  </button>
+
+  <app-contacts-table
+    [contacts]="contacts"
+    (actionClicked)="onTableAction($event)"
+  ></app-contacts-table>
+
+  <app-contact-modal
     [visible]="showModal"
+    [contactToEdit]="contactToEdit"
     (close)="closeModal()"
     (submit)="handleCreateContact($event)"
   ></app-contact-modal>
-  </div>
+</div>

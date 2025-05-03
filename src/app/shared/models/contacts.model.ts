@@ -1,4 +1,5 @@
 export interface Contact {
+    cedula: string;
     id?: number;
     created_at?: string;
     name: string;

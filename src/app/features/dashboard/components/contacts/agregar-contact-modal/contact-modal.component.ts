@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from '../../../../../shared/components/form/form.component';
- // ajusta el path si es necesario
+import { Contact } from '../../../../../shared/models/contacts.model';
 
 @Component({
   selector: 'app-contact-modal',
@@ -16,7 +16,8 @@ import { FormComponent } from '../../../../../shared/components/form/form.compon
 
         <app-form
           [formFields]="formFields"
-          submitLabel="Crear"
+          [submitLabel]="contactToEdit ? 'Actualizar' : 'Crear'"
+          [contactToEdit]="contactToEdit"
           cancelLabel="Cancelar"
           (submitForm)="onSubmit($event)"
           (cancel)="close.emit()"
@@ -27,18 +28,24 @@ import { FormComponent } from '../../../../../shared/components/form/form.compon
 })
 export class ContactModalComponent {
   @Input() visible = false;
+  @Input() contactToEdit: Contact | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<any>();
 
   formFields = [
+    { name: 'cedula', type: 'text', label: 'Cédula', required: true }, 
     { name: 'name', type: 'text', label: 'Nombre', required: true },
     { name: 'last_name', type: 'text', label: 'Apellido', required: true },
     { name: 'email', type: 'email', label: 'Email', required: true },
     { name: 'phone', type: 'text', label: 'Teléfono', required: true },
-    { name: 'age', type: 'number', label: 'Edad', required: false },
+    { name: 'age', type: 'number', label: 'Edad', required: true },
   ];
 
-  onSubmit(formData: any) {
-    this.submit.emit(formData);
+  onSubmit(formData: Contact) {
+    if (this.contactToEdit?.id) {
+      this.submit.emit({ data: formData, id: this.contactToEdit.id });
+    } else {
+      this.submit.emit({ data: formData });
+    }
   }
 }

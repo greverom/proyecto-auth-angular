@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ContactService } from '../../../../../core/services/contact.service';
@@ -16,10 +16,12 @@ import { User } from '../../../../../shared/models/user.model';
 })
 export class ContactsTableComponent implements OnInit {
   @Input() contacts: Contact[] = [];
+  @Output() actionClicked = new EventEmitter<{ action: string; item: Contact }>();
 
-  columns = ['name', 'last_name', 'phone', 'email', 'age', 'created_at'];
+  columns = ['cedula', 'name', 'last_name', 'phone', 'email', 'age', 'created_at'];
 
   columnLabels: Record<string, string> = {
+    cedula: 'Cédula',
     name: 'Name',
     last_name: 'Last Name',
     phone: 'Phone',
@@ -42,6 +44,6 @@ export class ContactsTableComponent implements OnInit {
   }
 
   onAction(event: { action: string; item: Contact }) {
-    console.log('Acción:', event.action, event.item);
-  }
+  this.actionClicked.emit(event);
+}
 }
