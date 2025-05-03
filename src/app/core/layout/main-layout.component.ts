@@ -9,7 +9,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
   imports: [RouterOutlet, SidebarComponent],
   template: `
     <app-sidebar></app-sidebar>
-    <main class="main-content bg-gray-100">
+    <main class="main-content bg-gray-50">
       <router-outlet></router-outlet>
     </main>
   `,
