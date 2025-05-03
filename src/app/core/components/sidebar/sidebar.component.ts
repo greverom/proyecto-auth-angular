@@ -121,9 +121,10 @@ export class SidebarComponent implements OnInit {
         try {
           const user = await firstValueFrom(this.store.select(selectUserData));
           const userId = user?.id;
+          const userName = user?.name;
   
-          if (userId) {
-            await this.authLogger.logUserAction('LOGOUT', userId);
+          if (userId && userName) {
+            await this.authLogger.logUserAction('LOGOUT', userId, userName );
           }
   
           await this.authService.logout();

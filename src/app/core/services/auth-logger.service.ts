@@ -5,7 +5,7 @@ import { supabase } from '../supabase-client';
   providedIn: 'root',
 })
 export class AuthLoggerService {
-  async logUserAction(action: 'LOGIN' | 'LOGOUT', userId: string): Promise<void> {
+  async logUserAction(action: 'LOGIN' | 'LOGOUT', userId: string, userName: string): Promise<void> {
     try {
       await supabase.from('audit_log').insert([
         {
@@ -13,6 +13,7 @@ export class AuthLoggerService {
           table_name: 'auth',
           record_id: null,
           performed_by: userId,
+          name: userName,
         },
       ]);
     } catch (err) {

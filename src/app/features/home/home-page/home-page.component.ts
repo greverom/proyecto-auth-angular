@@ -35,7 +35,7 @@ export class HomePageComponent {
   
     try {
       const user: User = await this.authService.login(email, password);
-      await this.authLogger.logUserAction('LOGIN', user.id);
+      await this.authLogger.logUserAction('LOGIN', user.id, user.name);
       await this.router.navigate(['/dashboard']);
     } catch (error: any) {
       const message = error?.message || 'Error al iniciar sesión.';

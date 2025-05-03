@@ -7,6 +7,7 @@
         "luxon",
         "opsz",
         "Paginación",
+        "Postgrest",
         "protonmail",
         "supabase",
         "tailwindcss",
