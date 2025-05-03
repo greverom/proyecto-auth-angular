@@ -1,0 +1,10 @@
+<app-table
+  [columns]="columns"
+  [data]="contacts"
+  [columnLabels]="columnLabels"
+  [manualPagination]="true"
+  [itemsPerPage]="5"
+  [showActions]="true"
+  [actions]="['edit', 'delete']"
+  (actionClicked)="onAction($event)">
+</app-table>

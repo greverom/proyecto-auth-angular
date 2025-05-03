@@ -10,5 +10,10 @@ export const DASHBOARD_ROUTES: Routes = [
     path: 'perfil',
     loadComponent: () =>
       import('./pages/perfil-page/perfil-page.component').then(m => m.PerfilPageComponent)
+  },
+  {
+    path: 'contacts',
+    loadComponent: () =>
+      import('./pages/contact-page/contact-page.component').then(m => m.ContactPageComponent)
   }
 ];

@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
   navItems: SidebarItem[] = [
     { icon: 'home', text: 'Inicio', route: '/dashboard' },
     { icon: 'person', text: 'Perfil', route: '/dashboard/perfil' },
-    { icon: 'settings', text: 'Configuración', route: '/dashboard/settings' }
+    { icon: 'settings', text: 'Contactos', route: '/dashboard/contacts' }
   ];
 
   navCategories: SidebarCategory[] = [

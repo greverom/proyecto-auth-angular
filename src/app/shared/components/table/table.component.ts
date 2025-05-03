@@ -12,6 +12,9 @@ export class TableComponent implements OnChanges {
   @Input() columns: string[] = [];
   @Input() data: any[] = [];
 
+   // Etiquetas legibles de columnas
+  @Input() columnLabels: Record<string, string> = {};
+
   // Checkboxes
   @Input() selectable: boolean = false;
   @Input() selectedItems: any[] = [];
@@ -85,5 +88,15 @@ export class TableComponent implements OnChanges {
 
   isDateField(value: any): boolean {
     return typeof value === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value);
+  }
+
+  getColumnLabel(key: string): string {
+    return this.columnLabels[key] || this.toTitleCase(key);
+  }
+
+  private toTitleCase(text: string): string {
+    return text
+      .replace(/_/g, ' ')
+      .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1));
   }
 }

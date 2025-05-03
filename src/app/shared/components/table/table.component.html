@@ -8,7 +8,7 @@
             <input type="checkbox" [checked]="selectedItems.length === data.length" (change)="selectAll($event)">
           </th>
           <th *ngFor="let col of columns" class="text-left px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100">
-            {{ col }}
+            {{ columnLabels[col] || col }}
           </th>
           <th *ngIf="showActions" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100">Acciones</th>
         </tr>
