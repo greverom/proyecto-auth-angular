@@ -4,8 +4,11 @@
     <input
       [type]="field.type"
       [formControlName]="field.name"
-      class="w-full text-sm border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
-      [class.border-red-500]="form.get(field.name)?.invalid && form.get(field.name)?.touched"
+      class="w-full text-sm px-3 py-2 rounded focus:outline-none border"
+      [ngClass]="{
+        'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500': form.get(field.name)?.invalid && form.get(field.name)?.touched,
+        'border-gray-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-400': !(form.get(field.name)?.invalid && form.get(field.name)?.touched)
+      }"
     />
     <p
       *ngIf="getErrorMessage(field.name)"

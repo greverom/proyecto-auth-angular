@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { selectUserData } from '../../store/user.selector';
 import { Store } from '@ngrx/store';
 import { NotificationService } from '../../services/modal/notice.service';
-import { ModalService } from '../../services/modal/modal.service';
 
 interface SidebarItem {
   icon: string;
@@ -59,7 +58,6 @@ export class SidebarComponent implements OnInit {
     private authService: AuthService,
     private store: Store,
     private notification: NotificationService,
-    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -108,17 +106,9 @@ export class SidebarComponent implements OnInit {
     const sidebar = document.querySelector('.sidebar');
     const isClickInsideSidebar = sidebar?.contains(target);
   
-    if (this.isModalVisible) {
-      return;
-    }
-  
     if (!isClickInsideSidebar && window.innerWidth <= 768) {
       this.isSidebarClosed = true;
     }
-  }
-
-  get isModalVisible(): boolean {
-    return this.modalService['modalSubject'].value.show;
   }
 
 async logout(): Promise<void> {

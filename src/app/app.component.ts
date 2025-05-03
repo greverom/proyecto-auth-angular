@@ -12,7 +12,7 @@ import { ModalComponent } from './shared/modal/modal.component';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, ModalComponent, SpinnerComponent ],
+    RouterOutlet, SpinnerComponent ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

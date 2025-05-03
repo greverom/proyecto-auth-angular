@@ -1,23 +1,16 @@
 
   <!-- Sidebar -->
-  <div
-    class="sidebar"
-    [class.closed]="isSidebarClosed"
-    (mouseleave)="closeSidebar($event)"
-    (mouseover)="openSidebar($event)"
-  >
-  
+<div class="sidebar" [class.closed]="isSidebarClosed" (mouseleave)="closeSidebar($event)" (mouseover)="openSidebar($event)">
     <!-- Logo y usuario -->
-    <div class="logo-user-container">
-      <div class="logo-container">
-        <img src="/favicon.ico" alt="Logo" />
-      </div>
-      <div class="user-info" *ngIf="!isSidebarClosed && (userData$ | async) as user">
-        <h2 class="hello-text">Hola,</h2>
-        <p class="user-name">{{ user.name || 'Usuario' }}</p>
-      </div>
+  <div class="logo-user-container">
+    <div class="logo-container">
+      <img src="/favicon.ico" alt="Logo" />
     </div>
-  
+    <div class="user-info" *ngIf="!isSidebarClosed && (userData$ | async) as user">
+      <h2 class="hello-text">Hola,</h2>
+      <p class="user-name">{{ user.name || 'Usuario' }}</p>
+    </div>
+  </div>
     <!-- Navegación -->
   <div class="nav-section">
     <!-- Enlaces directos -->
@@ -31,21 +24,13 @@
         <span class="link-text">{{ item.text }}</span>
       </a>
     </div>
-
     <!-- Categorías con dropdown -->
     <div class="nav-group" *ngFor="let category of navCategories">
-      <div
-        class="category-header"
-        [class.closed]="isSidebarClosed"
-        (click)="toggleCategory(category.title)"
-        [class.collapsed]="!categoryStates[category.title]"
-        [class.active]="currentRoute.includes(category.baseRoute)"
-      >
+      <div class="category-header" [class.closed]="isSidebarClosed" (click)="toggleCategory(category.title)" [class.collapsed]="!categoryStates[category.title]" [class.active]="currentRoute.includes(category.baseRoute)">
         <span class="material-symbols-outlined nav-icon">{{ category.icon }}</span>
         <span class="title-text">{{ category.title }}</span>
         <i class="fas fa-chevron-down chevron-icon"></i>
       </div>
-
       <ul *ngIf="categoryStates[category.title]" class="group-list">
         <li *ngFor="let child of category.children">
           <a [routerLink]="child.route">
@@ -55,7 +40,6 @@
       </ul>
     </div>
   </div>
-  
   <!-- Logout -->
   <div class="logout">
       <a (click)="logout()">
@@ -63,12 +47,8 @@
           <span class="link-text">Salir</span>
       </a>
   </div>
-  
   <!-- Flecha -->
-  <div
-    class="arrow-icon"
-    *ngIf="isSidebarClosed"
-    (click)="openSidebar($event)"
-  >
+  <div class="arrow-icon" *ngIf="isSidebarClosed" (click)="openSidebar($event)">
     <i class="fas fa-chevron-right"></i>
   </div>
+</div>
