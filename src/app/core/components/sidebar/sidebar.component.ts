@@ -6,6 +6,8 @@ import { User } from '../../../shared/models/user.model';
 import { Observable } from 'rxjs';
 import { selectUserData } from '../../store/user.selector';
 import { Store } from '@ngrx/store';
+import { NotificationService } from '../../services/modal/notice.service';
+import { ModalService } from '../../services/modal/modal.service';
 
 interface SidebarItem {
   icon: string;
@@ -52,7 +54,13 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private authService: AuthService, private store: Store,) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private store: Store,
+    private notification: NotificationService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
@@ -99,18 +107,34 @@ export class SidebarComponent implements OnInit {
     const target = event.target as HTMLElement;
     const sidebar = document.querySelector('.sidebar');
     const isClickInsideSidebar = sidebar?.contains(target);
-
+  
+    if (this.isModalVisible) {
+      return;
+    }
+  
     if (!isClickInsideSidebar && window.innerWidth <= 768) {
       this.isSidebarClosed = true;
     }
   }
 
-  async logout(): Promise<void> {
-    try {
-      await this.authService.logout();
-      this.router.navigate(['/auth/login']);
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    }
+  get isModalVisible(): boolean {
+    return this.modalService['modalSubject'].value.show;
   }
+
+async logout(): Promise<void> {
+  this.notification.confirm({
+    message: '¿Estás seguro que deseas cerrar sesión?',
+    confirm: async () => {
+      try {
+        await this.authService.logout();
+        this.router.navigate(['/auth/login']);
+      } catch (error) {
+        this.notification.error('Ocurrió un error al cerrar sesión.');
+      }
+    },
+    cancel: () => {
+      this.notification.success('Has cancelado el cierre de sesión.');
+    }
+  });
+}
 }

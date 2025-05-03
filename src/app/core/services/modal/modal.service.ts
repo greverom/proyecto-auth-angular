@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ModalDto, modalInitializer } from '../../shared/modal/modal.dto';
+import { ModalDto, modalInitializer } from '../../../shared/modal/modal.dto';
 
 
 @Injectable({ providedIn: 'root' })
@@ -18,7 +18,7 @@ export class ModalService {
     if (!config.showButtons) {
       setTimeout(() => {
         this.hide();
-      }, 2500);
+      }, 4000);
     }
   }
 
@@ -37,4 +37,5 @@ export class ModalService {
   hide() {
     this.modalSubject.next(modalInitializer());
   }
+  
 }

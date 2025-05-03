@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { selectUserData } from '../../../../core/store/user.selector';
 import { firstValueFrom } from 'rxjs';
 import { ContactModalComponent } from '../../components/contacts/agregar-contact-modal/contact-modal.component';
+import { NotificationService } from '../../../../core/services/modal/notice.service';
 
 @Component({
   selector: 'app-contact-page',
@@ -21,7 +22,8 @@ export class ContactPageComponent implements OnInit {
 
   constructor(
     private contactService: ContactService,
-    private store: Store
+    private store: Store,
+    private notification: NotificationService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -45,6 +47,9 @@ export class ContactPageComponent implements OnInit {
       this.contactToEdit = event.item;
       this.showModal = true;
     }
+    if (event.action === 'delete') {
+      this.confirmDeleteContact(event.item);
+    }
   }
 
   async handleCreateContact(payload: { data: Contact; id?: number }) {
@@ -64,14 +69,34 @@ export class ContactPageComponent implements OnInit {
       user_id: user.id,
     };
   
-    if (id) {
-      await this.contactService.updateContact(id, contacto); 
-    } else {
-      await this.contactService.createContact(contacto);
-    }
+    try {
+      if (id) {
+        await this.contactService.updateContact(id, contacto);
+        this.notification.success('Contacto actualizado correctamente.');
+      } else {
+        await this.contactService.createContact(contacto);
+        this.notification.success('Contacto creado correctamente.');
+      }
   
-    this.contacts = await this.contactService.getContactsByUser(user.id);
-    this.closeModal();
-    this.contactToEdit = null;
+      this.contacts = await this.contactService.getContactsByUser(user.id);
+      this.closeModal();
+      this.contactToEdit = null;
+    } catch {
+      this.notification.error('Ocurrió un error al guardar.');
+    }
   }
+
+  confirmDeleteContact(contact: Contact): void {
+    this.notification.confirm({
+      message: `¿Deseas eliminar a ${contact.name} ${contact.last_name}?`,
+      confirm: async () => {
+        await this.contactService.deleteContact(contact.id!);
+        const user = await firstValueFrom(this.store.select(selectUserData));
+        this.contacts = await this.contactService.getContactsByUser(user!.id);
+        this.notification.success('Contacto eliminado correctamente.');
+      },
+    });
+  }
+
+
 }

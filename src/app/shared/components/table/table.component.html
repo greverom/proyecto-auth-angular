@@ -1,4 +1,4 @@
-<div class="w-full mx-auto">
+<div class="w-full max-w-6xl mx-auto">
   <div class="overflow-x-auto rounded-md shadow">
     <table class="min-w-full divide-y divide-gray-200">
       <!-- Encabezado gris claro -->
@@ -43,21 +43,23 @@
 </div>
   
   <!-- Pagination -->
-<div *ngIf="manualPagination" class="flex justify-between items-center mt-4">
-  <div class="text-sm text-gray-600 dark:text-zinc-300">
+<div *ngIf="manualPagination" class="w-full max-w-6xl mx-auto flex justify-between items-center mt-4">
+  <div class="text-xs text-gray-600 dark:text-zinc-300">
     Página {{ currentPage }} de {{ totalPages }}
   </div>
-  <div class="space-x-2">
-    <button
+    <div class="space-x-2">
+      <button
       (click)="changePage(currentPage - 1)"
       [disabled]="currentPage === 1"
-      class="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50">
+      class="px-2 py-1 text-xs bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50"
+    >
       Anterior
     </button>
     <button
       (click)="changePage(currentPage + 1)"
       [disabled]="currentPage === totalPages"
-      class="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50">
+      class="px-2 py-1 text-xs bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded disabled:opacity-50"
+    >
       Siguiente
     </button>
   </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalService } from '../../core/services/modal.service';
+import { ModalService } from '../../core/services/modal/modal.service';
 import { ModalDto } from './modal.dto';
 
 @Component({
