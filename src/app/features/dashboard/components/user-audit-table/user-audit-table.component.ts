@@ -17,6 +17,7 @@ import { debounceTime, Subject } from 'rxjs';
 })
 export class UserAuditTableComponent implements OnInit {
   logs: AuditLogEntry[] = [];
+  
 
   formFields = [
     { name: 'name', label: 'Nombre de Usuario', type: 'text' },
@@ -52,7 +53,7 @@ export class UserAuditTableComponent implements OnInit {
       }
     
       const results = await this.authService.searchUsersByNameFromFunction(term);
-      console.log('Usuarios encontrados:', results); 
+      //console.log('Usuarios encontrados:', results); 
       this.suggestions = results.map((user) => ({
         id: user.id,
         name: user.name, 
