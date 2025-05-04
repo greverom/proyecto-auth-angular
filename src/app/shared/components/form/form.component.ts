@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { cedulaEcuadorValidator } from '../../validators/ecuador-id.validators';
 import { Contact } from '../../models/contacts.model';
 import { User } from '../../models/user.model';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -19,11 +20,19 @@ export class FormComponent {
   @Input() userToToEdit: User | null = null;
   @Output() submitForm = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
+  @Output() nameSearch = new EventEmitter<string>();
 
   form: FormGroup;
+  private nameInput$ = new Subject<string>();
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({}); 
+
+    this.nameInput$
+      .pipe(debounceTime(400))
+      .subscribe((value) => {
+        this.nameSearch.emit(value);
+      });
   }
 
   ngOnInit() {
@@ -51,6 +60,12 @@ export class FormComponent {
     });
 
     this.form = this.fb.group(group);
+
+    if (this.form.get('name')) {
+      this.form.get('name')!.valueChanges.subscribe((value: string) => {
+        this.nameInput$.next(value);
+      });
+    }
   }
 
   getErrorMessage(fieldName: string): string | null {

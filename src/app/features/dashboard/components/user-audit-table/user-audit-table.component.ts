@@ -6,6 +6,8 @@ import { AuditLogEntry } from '../../../../shared/models/audi-log-entry.model';
 import { AuditLogService } from '../../../../core/services/audit-log.service';
 import { AuditLogFilter } from '../../../../shared/models/audit-log-filter.model';
 import { FormComponent } from '../../../../shared/components/form/form.component';
+import { AuthService } from '../../../../core/services/auth.service';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-audit-table',
@@ -31,13 +33,35 @@ export class UserAuditTableComponent implements OnInit {
     performed_at: 'Fecha y Hora'
   };
 
+  private nameSearch$ = new Subject<string>();
+  suggestions: { id: string; name: string }[] = [];
+
   constructor(
     private store: Store,
-    private auditLogService: AuditLogService
+    private auditLogService: AuditLogService,
+    private authService: AuthService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.logs = []; 
+  ngOnInit(): void {
+    this.logs = [];
+
+    this.nameSearch$.pipe(debounceTime(300)).subscribe(async (term) => {
+      if (!term.trim()) {
+        this.suggestions = [];
+        return;
+      }
+    
+      const results = await this.authService.searchUsersByNameFromFunction(term);
+      console.log('Usuarios encontrados:', results); 
+      this.suggestions = results.map((user) => ({
+        id: user.id,
+        name: user.name, 
+      }));
+    });
+  }
+
+  onUserNameTyped(term: string) {
+    this.nameSearch$.next(term);
   }
 
   async onFilterSubmit(filters: AuditLogFilter) {

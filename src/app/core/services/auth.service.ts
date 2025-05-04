@@ -106,6 +106,18 @@ export class AuthService {
     return user;
   }
 
+  async searchUsersByNameFromFunction(name: string): Promise<{ id: string; name: string }[]> {
+    const { data, error } = await supabase.rpc('search_users_by_name', {
+      search_text: name,
+    });
+  
+    if (error) {
+      console.error('Error buscando usuarios por nombre:', error);
+      return [];
+    }
+  
+    return data ?? [];
+  }
 
   async logout(): Promise<void> {
     await supabase.auth.signOut();
