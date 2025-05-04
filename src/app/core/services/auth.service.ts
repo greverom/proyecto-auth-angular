@@ -9,12 +9,13 @@ export class AuthService {
   constructor(private store: Store) {}
 
   private mapSupabaseUser(user: any): User {
+    const metadata = user.user_metadata ?? {}; 
     return {
       id: user.id,
       email: user.email ?? '',
-      name: user.user_metadata?.['name'] ?? '',
-      role: user.user_metadata?.['role'] ?? 'user',
-      phone: user.phone ?? '',
+      name: metadata.name ?? '',
+      role: metadata.role ?? 'user',
+      phone: metadata.phone ?? '', 
       created_at: user.created_at ?? '',
       updated_at: user.updated_at ?? '',
       last_sign_in_at: user.last_sign_in_at ?? '',
@@ -47,7 +48,8 @@ export class AuthService {
       options: {
         data: {
           name,
-          role: 'user'
+          role: 'user',
+          display_name: name 
         },
         emailRedirectTo: 'http://localhost:4200/dashboard' 
       }
@@ -79,6 +81,31 @@ export class AuthService {
     this.store.dispatch(setLoggedInStatus({ isLoggedIn: true }));
     this.store.dispatch(setAdminStatus({ isAdmin }));
   }
+
+  async updateUserProfile(formData: any): Promise<User> {
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: {
+        name: formData.name,
+        role: formData.role,
+        phone: formData.phone,
+        display_name: formData.name  
+      }
+    });
+  
+    if (updateError) throw updateError;
+  
+    const { data, error: fetchError } = await supabase.auth.getUser();
+    if (fetchError || !data.user) throw fetchError;
+  
+    const user = this.mapSupabaseUser(data.user);
+    const isAdmin = user.role.toLowerCase() === 'administrador';
+  
+    this.store.dispatch(setUserData({ data: user }));
+    this.store.dispatch(setAdminStatus({ isAdmin }));
+  
+    return user;
+  }
+
 
   async logout(): Promise<void> {
     await supabase.auth.signOut();

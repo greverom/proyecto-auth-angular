@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { cedulaEcuadorValidator } from '../../validators/ecuador-id.validators';
 import { Contact } from '../../models/contacts.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-form',
@@ -15,6 +16,7 @@ export class FormComponent {
   @Input() submitLabel = 'Guardar';
   @Input() cancelLabel = 'Cancelar';
   @Input() contactToEdit: Contact | null = null;
+  @Input() userToToEdit: User | null = null;
   @Output() submitForm = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -41,7 +43,10 @@ export class FormComponent {
         validators.push(cedulaEcuadorValidator);
       }
 
-      const initialValue = this.contactToEdit?.[field.name as keyof Contact] ?? null;
+      const initialValue =
+        this.contactToEdit?.[field.name as keyof Contact] ??
+        this.userToToEdit?.[field.name as keyof User] ??
+        null;
       group[field.name] = [initialValue, validators];
     });
 
