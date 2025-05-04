@@ -6,29 +6,47 @@
   >
     <label class="block text-xs font-medium text-gray-600 mb-1">{{ field.label }}</label>
 
-    <input
-      [type]="field.type"
-      [formControlName]="field.name"
-      class="w-full text-sm px-3 py-2 rounded focus:outline-none border"
-      (input)="onInput($event, field.name)"
-      [ngClass]="{
-        'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500': form.get(field.name)?.invalid && form.get(field.name)?.touched,
-        'border-gray-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-400': !(form.get(field.name)?.invalid && form.get(field.name)?.touched)
-      }"
-    />
-
-    <ul
-      *ngIf="field.name === 'name' && suggestions.length > 0"
-      class="absolute z-10 bg-white border border-gray-300 rounded shadow-md w-full max-h-48 overflow-auto"
-    >
-      <li
-        *ngFor="let user of suggestions"
-        (click)="selectSuggestion(user)"
-        class="px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer"
+    <!-- Acción como select -->
+    <ng-container [ngSwitch]="field.name">
+      <select
+        *ngSwitchCase="'action'"
+        [formControlName]="field.name"
+        class="w-full text-sm px-3 py-2 rounded border focus:outline-none"
       >
-        {{ user.name }}
-      </li>
-    </ul>
+        <option value="">-- Seleccionar evento --</option>
+        <option *ngFor="let action of availableActions" [value]="action">
+          {{ action }}
+        </option>
+      </select>
+
+      <!-- Input normal -->
+      <ng-container *ngSwitchDefault>
+        <input
+          [type]="field.type"
+          [formControlName]="field.name"
+          class="w-full text-sm px-3 py-2 rounded focus:outline-none border"
+          (input)="onInput($event, field.name)"
+          [ngClass]="{
+            'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500': form.get(field.name)?.invalid && form.get(field.name)?.touched,
+            'border-gray-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-400': !(form.get(field.name)?.invalid && form.get(field.name)?.touched)
+          }"
+        />
+
+        <!-- Dropdown de sugerencias -->
+        <ul
+          *ngIf="field.name === 'name' && suggestions.length > 0"
+          class="absolute z-10 bg-white border border-gray-300 rounded shadow-md w-full max-h-48 overflow-auto"
+        >
+          <li
+            *ngFor="let user of suggestions"
+            (click)="selectSuggestion(user)"
+            class="px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer"
+          >
+            {{ user.name }}
+          </li>
+        </ul>
+      </ng-container>
+    </ng-container>
 
     <p *ngIf="getErrorMessage(field.name)" class="mt-1 text-xs text-red-500">
       {{ getErrorMessage(field.name) }}

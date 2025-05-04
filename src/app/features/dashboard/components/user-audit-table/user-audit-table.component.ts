@@ -17,7 +17,10 @@ import { debounceTime, Subject } from 'rxjs';
 })
 export class UserAuditTableComponent implements OnInit {
   logs: AuditLogEntry[] = [];
-  
+  private nameSearch$ = new Subject<string>();
+  suggestions: { id: string; name: string }[] = [];
+  actions: string[] = [];
+
 
   formFields = [
     { name: 'name', label: 'Nombre de Usuario', type: 'text' },
@@ -34,9 +37,6 @@ export class UserAuditTableComponent implements OnInit {
     performed_at: 'Fecha y Hora'
   };
 
-  private nameSearch$ = new Subject<string>();
-  suggestions: { id: string; name: string }[] = [];
-
   constructor(
     private store: Store,
     private auditLogService: AuditLogService,
@@ -44,6 +44,10 @@ export class UserAuditTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.auditLogService.getAvailableActions().then((actions) => {
+      this.actions = actions;
+    });
+
     this.logs = [];
 
     this.nameSearch$.pipe(debounceTime(300)).subscribe(async (term) => {

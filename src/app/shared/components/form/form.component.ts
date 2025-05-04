@@ -19,6 +19,7 @@ export class FormComponent {
   @Input() contactToEdit: Contact | null = null;
   @Input() userToToEdit: User | null = null;
   @Input() suggestions: { id: string; name: string }[] = [];
+  @Input() availableActions: string[] = [];
 
   @Output() submitForm = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();

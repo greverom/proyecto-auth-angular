@@ -18,6 +18,22 @@ export class AuditLogService {
     return { data: data ?? [], error };
   }
 
+  async getAvailableActions(): Promise<string[]> {
+    const { data, error } = await supabase
+      .from('audit_log')
+      .select('action')
+      .neq('action', null)
+      .order('action', { ascending: true });
+  
+    if (error) {
+      console.error('Error al obtener acciones:', error);
+      return [];
+    }
+  
+    const uniqueActions = [...new Set(data.map((item: any) => item.action))];
+    return uniqueActions;
+  }
+
   async getLogsByFilters(filters: AuditLogFilter): Promise<{ data: AuditLogEntry[]; error: PostgrestError | null }> {
     let query = supabase
       .from('audit_log')
