@@ -42,6 +42,7 @@ export class ContactModalComponent {
   ];
 
   onSubmit(formData: Contact) {
+    console.log('Payload recibido:', formData);
     if (this.contactToEdit?.id) {
       this.submit.emit({ data: formData, id: this.contactToEdit.id });
     } else {

@@ -54,6 +54,7 @@ export class ContactPageComponent implements OnInit {
 
   async handleCreateContact(payload: { data: Contact; id?: number }) {
     const { data, id } = payload;
+    console.log('Payload recibido:', data);
   
     const camposRequeridos: (keyof Contact)[] = ['cedula', 'name', 'last_name', 'email', 'phone', 'age'];
     const camposFaltantes = camposRequeridos.filter(
