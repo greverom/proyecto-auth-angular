@@ -70,7 +70,7 @@ export class UserAuditTableComponent implements OnInit {
   }
 
   async onFilterSubmit(filters: AuditLogFilter) {
-    console.log('Nombre enviado:', filters.name);
+   // console.log('Nombre enviado:', filters.name);
     const { data, error } = await this.auditLogService.getLogsByFilters(filters);
     if (error) {
       console.error('Error al filtrar logs:', error);

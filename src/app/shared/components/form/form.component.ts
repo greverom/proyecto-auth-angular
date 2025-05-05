@@ -5,6 +5,7 @@ import { cedulaEcuadorValidator } from '../../validators/ecuador-id.validators';
 import { Contact } from '../../models/contacts.model';
 import { User } from '../../models/user.model';
 import { debounceTime, Subject } from 'rxjs';
+import { convertirAISOConZona } from '../../utils/date-utils';
 
 @Component({
   selector: 'app-form',
@@ -122,7 +123,20 @@ export class FormComponent {
       this.form.markAllAsTouched();
       return;
     }
-    this.submitForm.emit(this.form.value);
+  
+    const rawValue = this.form.value;
+    const processedValue = { ...rawValue };
+  
+    if (rawValue.fechaDesde) {
+      processedValue.fechaDesde = convertirAISOConZona(rawValue.fechaDesde, 'inicio');
+    }
+  
+    if (rawValue.fechaHasta) {
+      processedValue.fechaHasta = convertirAISOConZona(rawValue.fechaHasta, 'fin');
+    }
+  
+    //console.log('Valores enviados al padre:', processedValue);
+    this.submitForm.emit(processedValue);
   }
 
   onCancel(): void {

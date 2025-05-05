@@ -59,6 +59,13 @@ export class AuthService {
   
     const user = data.user;
     if (!user) throw new Error('No se pudo completar el registro.');
+
+    await supabase.auth.updateUser({
+      data: {
+        name,
+        display_name: name
+      }
+    });
   
     const userData = this.mapSupabaseUser(user);
     const isAdmin = userData.role.toLowerCase() === 'administrador';
