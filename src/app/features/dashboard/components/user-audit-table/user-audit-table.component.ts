@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { debounceTime, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { AuditLogEntry } from '../../../../shared/models/audi-log-entry.model';
 import { AuditLogService } from '../../../../core/services/audit-log.service';
 import { AuditLogFilter } from '../../../../shared/models/audit-log-filter.model';
 import { FormComponent } from '../../../../shared/components/form/form.component';
-import { AuthService } from '../../../../core/services/auth.service';
-import { debounceTime, Subject } from 'rxjs';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-user-audit-table',
@@ -40,7 +41,7 @@ export class UserAuditTableComponent implements OnInit {
   constructor(
     private store: Store,
     private auditLogService: AuditLogService,
-    private authService: AuthService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class UserAuditTableComponent implements OnInit {
         return;
       }
     
-      const results = await this.authService.searchUsersByNameFromFunction(term);
+      const results = await this.userService.searchUsersByName(term);
       //console.log('Usuarios encontrados:', results); 
       this.suggestions = results.map((user) => ({
         id: user.id,

@@ -1,37 +1,23 @@
+// src/app/core/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { supabase } from '../supabase-client';
-import { User } from '../../shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { setUserData, setLoggedInStatus, setAdminStatus, unsetUserData } from '../store/user.action';
+import { User } from '../../shared/models/user.model';
+import { mapSupabaseUser } from '../../shared/utils/map-supabase-user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private store: Store) {}
 
-  private mapSupabaseUser(user: any): User {
-    const metadata = user.user_metadata ?? {}; 
-    return {
-      id: user.id,
-      email: user.email ?? '',
-      name: metadata.name ?? '',
-      role: metadata.role ?? 'user',
-      phone: metadata.phone ?? '', 
-      created_at: user.created_at ?? '',
-      updated_at: user.updated_at ?? '',
-      last_sign_in_at: user.last_sign_in_at ?? '',
-      confirmed_at: user.confirmed_at ?? '',
-    };
-  }
-
   async login(email: string, password: string): Promise<User> {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+
     const user = data.user;
     if (!user) throw new Error('No se pudo recuperar la sesión.');
-    // const token = session.access_token;
-    // document.cookie = `auth_token=${token}; path=/; secure; samesite=Strict`;
 
-    const userData = this.mapSupabaseUser(user);
+    const userData = mapSupabaseUser(user);
     const isAdmin = userData.role.toLowerCase() === 'administrador';
 
     this.store.dispatch(setUserData({ data: userData }));
@@ -49,31 +35,31 @@ export class AuthService {
         data: {
           name,
           role: 'user',
-          display_name: name 
+          display_name: name,
         },
-        emailRedirectTo: 'http://localhost:4200/dashboard' 
-      }
+        emailRedirectTo: 'http://localhost:4200/dashboard',
+      },
     });
-  
+
     if (error) throw error;
-  
+
     const user = data.user;
     if (!user) throw new Error('No se pudo completar el registro.');
 
     await supabase.auth.updateUser({
       data: {
         name,
-        display_name: name
-      }
+        display_name: name,
+      },
     });
-  
-    const userData = this.mapSupabaseUser(user);
+
+    const userData = mapSupabaseUser(user);
     const isAdmin = userData.role.toLowerCase() === 'administrador';
-  
+
     this.store.dispatch(setUserData({ data: userData }));
     this.store.dispatch(setLoggedInStatus({ isLoggedIn: true }));
     this.store.dispatch(setAdminStatus({ isAdmin }));
-  
+
     return userData;
   }
 
@@ -81,49 +67,12 @@ export class AuthService {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return;
 
-    const userData = this.mapSupabaseUser(data.user);
+    const userData = mapSupabaseUser(data.user);
     const isAdmin = userData.role.toLowerCase() === 'administrador';
 
     this.store.dispatch(setUserData({ data: userData }));
     this.store.dispatch(setLoggedInStatus({ isLoggedIn: true }));
     this.store.dispatch(setAdminStatus({ isAdmin }));
-  }
-
-  async updateUserProfile(formData: any): Promise<User> {
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: {
-        name: formData.name,
-        role: formData.role,
-        phone: formData.phone,
-        display_name: formData.name  
-      }
-    });
-  
-    if (updateError) throw updateError;
-  
-    const { data, error: fetchError } = await supabase.auth.getUser();
-    if (fetchError || !data.user) throw fetchError;
-  
-    const user = this.mapSupabaseUser(data.user);
-    const isAdmin = user.role.toLowerCase() === 'administrador';
-  
-    this.store.dispatch(setUserData({ data: user }));
-    this.store.dispatch(setAdminStatus({ isAdmin }));
-  
-    return user;
-  }
-
-  async searchUsersByNameFromFunction(name: string): Promise<{ id: string; name: string }[]> {
-    const { data, error } = await supabase.rpc('search_users_by_name', {
-      search_text: name,
-    });
-  
-    if (error) {
-      console.error('Error buscando usuarios por nombre:', error);
-      return [];
-    }
-  
-    return data ?? [];
   }
 
   async logout(): Promise<void> {

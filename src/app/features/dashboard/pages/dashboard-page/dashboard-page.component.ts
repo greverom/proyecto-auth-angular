@@ -11,7 +11,15 @@ import { UserCardComponent } from '../../components/user-card/user-card.componen
 @Component({
   selector: 'app-dashboard-page',
   imports: [CommonModule, UserCardComponent],
-  templateUrl: './dashboard-page.component.html',
+  template: `
+      <div class="pt-10 p-3 md:p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Dashboard</h1>
+
+        <ng-container *ngIf="user$ | async as user">
+          <app-user-card [user]="user" />
+        </ng-container>
+      </div>
+  `,
 })
 export class DashboardPageComponent {
   user$!: Observable<User | null>;

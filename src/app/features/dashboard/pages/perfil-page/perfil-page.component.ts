@@ -7,7 +7,7 @@ import { User } from '../../../../shared/models/user.model';
 import { ProfileTableComponent } from '../../components/profile-table/profile-table.component';
 import { FormComponent } from '../../../../shared/components/form/form.component';
 import { NotificationService } from '../../../../core/services/modal/notice.service';
-import { AuthService } from '../../../../core/services/auth.service';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-perfil-page',
@@ -27,7 +27,7 @@ export class PerfilPageComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private authService: AuthService,
+    private userService: UserService,
     private notification: NotificationService
   ) {}
 
@@ -37,7 +37,7 @@ export class PerfilPageComponent implements OnInit {
 
   async handleProfileUpdate(formData: any) {
     try {
-      await this.authService.updateUserProfile(formData);
+      await this.userService.updateUserProfile(formData);
       this.notification.success('Perfil actualizado con éxito.');
       this.editMode = false;
     } catch (err) {

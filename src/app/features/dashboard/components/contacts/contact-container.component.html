@@ -1,0 +1,22 @@
+<div class="pt-4 p-3 md:p-6">
+    <div class="max-w-6xl mx-auto">
+      <button
+        class="mb-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-4 rounded transition"
+        (click)="openAddModal()"
+      >
+        + Nuevo contacto
+      </button>
+    </div>
+  
+    <app-contacts-table
+      [contacts]="contacts"
+      (actionClicked)="onTableAction($event)"
+    ></app-contacts-table>
+  
+    <app-contact-modal
+      [visible]="showModal"
+      [contactToEdit]="contactToEdit"
+      (close)="closeModal()"
+      (submit)="handleCreateContact($event)"
+    ></app-contact-modal>
+  </div>
