@@ -1,13 +1,17 @@
-<app-form
-  [formFields]="formFields"
-  [suggestions]="suggestions"
-  [availableActions]="actions"
-  submitLabel="Buscar"
-  cancelLabel="Limpiar"
-  (submitForm)="onFilterSubmit($event)"
-  (cancel)="ngOnInit()"
-  (nameSearch)="onUserNameTyped($event)"
-></app-form>
+<div class="flex justify-center">
+  <div class="w-[500px]">
+    <app-form
+      [formFields]="formFields"
+      [suggestions]="suggestions"
+      [availableActions]="actions"
+      submitLabel="Buscar"
+      cancelLabel="Limpiar"
+      (submitForm)="onFilterSubmit($event)"
+      (cancel)="ngOnInit()"
+      (nameSearch)="onUserNameTyped($event)"
+    ></app-form>
+  </div>
+</div>
 
 <br />
 

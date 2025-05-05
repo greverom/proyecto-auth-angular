@@ -8,6 +8,7 @@ import { selectUserData } from '../../store/user.selector';
 import { Store } from '@ngrx/store';
 import { NotificationService } from '../../services/modal/notice.service';
 import { AuthLoggerService } from '../../services/auth-logger.service';
+import { SpinnerService } from '../../services/spinner.service';
 
 interface SidebarItem {
   icon: string;
@@ -57,6 +58,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private spinner: SpinnerService,
     private authService: AuthService,
     private store: Store,
     private notification: NotificationService,
@@ -126,11 +128,14 @@ export class SidebarComponent implements OnInit {
           if (userId && userName) {
             await this.authLogger.logUserAction('LOGOUT', userId, userName );
           }
+          this.spinner.show();
   
           await this.authService.logout();
           this.router.navigate(['/auth/login']);
         } catch (error) {
           this.notification.error('Ocurrió un error al cerrar sesión.');
+        }finally {
+          this.spinner.hide();
         }
       },
       cancel: () => {
