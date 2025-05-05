@@ -29,11 +29,11 @@ export class UserAuditTableComponent implements OnInit {
     { name: 'fechaHasta', label: 'Hasta', type: 'date' }
   ];
 
-  columns: string[] = ['action', 'table_name', 'record_id', 'performed_at'];
+  columns: string[] = ['action', 'table_name', 'target_name', 'performed_at'];
   columnLabels = {
     action: 'Acción',
     table_name: 'Tabla',
-    record_id: 'ID del Registro',
+    target_name: 'Nombre del Contacto',
     performed_at: 'Fecha y Hora'
   };
 
